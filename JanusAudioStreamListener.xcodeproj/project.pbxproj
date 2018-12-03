@@ -15,18 +15,18 @@
 		780EB28F21AAE66200312EE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 780EB28D21AAE66200312EE1 /* LaunchScreen.storyboard */; };
 		780EB29921AAE82E00312EE1 /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB29821AAE82E00312EE1 /* WebRTCClient.swift */; };
 		7825A9AF21AB4E41007D072B /* JanusWebGate.framework in Resources */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; };
-		7825A9B021B5B9F9007D072B /* JanusWebGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; };
-		7825A9B121B5B9F9007D072B /* JanusWebGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7825A9B821B5DF23007D072B /* JanusWebGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; };
+		7825A9B921B5DF23007D072B /* JanusWebGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		7825A9B221B5B9F9007D072B /* Embed Frameworks */ = {
+		7825A9BA21B5DF23007D072B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				7825A9B121B5B9F9007D072B /* JanusWebGate.framework in Embed Frameworks */,
+				7825A9B921B5DF23007D072B /* JanusWebGate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7825A9B021B5B9F9007D072B /* JanusWebGate.framework in Frameworks */,
+				7825A9B821B5DF23007D072B /* JanusWebGate.framework in Frameworks */,
 				3D1B920EE73C65151EE36277 /* Pods_JanusAudioStreamListener.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -123,7 +123,7 @@
 				780EB27E21AAE66100312EE1 /* Frameworks */,
 				780EB27F21AAE66100312EE1 /* Resources */,
 				F8C1370F15833D273D98EF3C /* [CP] Embed Pods Frameworks */,
-				7825A9B221B5B9F9007D072B /* Embed Frameworks */,
+				7825A9BA21B5DF23007D072B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
