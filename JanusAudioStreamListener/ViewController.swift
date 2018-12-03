@@ -20,11 +20,22 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        NotificationCenter.default.addObserver(forName: AVAudioSession.routeChangeNotification, object: nil, queue: nil, using: routeChange)
+
         self.janusSession.delegate = self
         
         self.runStreamingPluginSequence()
         
+    }
+    
+    private func routeChange(_ n: Notification) {
+        guard let info = n.userInfo,
+            let value = info[AVAudioSessionRouteChangeReasonKey] as? UInt,
+            let reason = AVAudioSession.RouteChangeReason(rawValue: value) else { return }
+        switch reason {
+        case .categoryChange: try? AVAudioSession.sharedInstance().overrideOutputAudioPort(.speaker)
+        default: break
+        }
     }
     
     @IBAction func StopStream(_ sender: Any) {
