@@ -10,6 +10,7 @@
 		780EB26A21AADABD00312EE1 /* JanusWebGate.h in Headers */ = {isa = PBXBuildFile; fileRef = 780EB26821AADABD00312EE1 /* JanusWebGate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		780EB27321AADAF800312EE1 /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB27021AADAF800312EE1 /* Entities.swift */; };
 		780EB27421AADAF800312EE1 /* JanusSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB27121AADAF800312EE1 /* JanusSession.swift */; };
+		7825A9B421B5C81A007D072B /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7825A9B321B5C81A007D072B /* Errors.swift */; };
 		78276FF221AAF4BD00F3D387 /* JanusRequestsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276FF121AAF4BD00F3D387 /* JanusRequestsBuilder.swift */; };
 		78276FF521AB112400F3D387 /* Utilites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276FF421AB112400F3D387 /* Utilites.swift */; };
 /* End PBXBuildFile section */
@@ -20,6 +21,7 @@
 		780EB26921AADABD00312EE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		780EB27021AADAF800312EE1 /* Entities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
 		780EB27121AADAF800312EE1 /* JanusSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JanusSession.swift; sourceTree = "<group>"; };
+		7825A9B321B5C81A007D072B /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		78276FF121AAF4BD00F3D387 /* JanusRequestsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusRequestsBuilder.swift; sourceTree = "<group>"; };
 		78276FF421AB112400F3D387 /* Utilites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilites.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				78276FF421AB112400F3D387 /* Utilites.swift */,
+				7825A9B321B5C81A007D072B /* Errors.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -168,6 +171,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78276FF521AB112400F3D387 /* Utilites.swift in Sources */,
+				7825A9B421B5C81A007D072B /* Errors.swift in Sources */,
 				78276FF221AAF4BD00F3D387 /* JanusRequestsBuilder.swift in Sources */,
 				780EB27421AADAF800312EE1 /* JanusSession.swift in Sources */,
 				780EB27321AADAF800312EE1 /* Entities.swift in Sources */,
@@ -309,8 +313,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JanusWebGate/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -335,8 +341,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JanusWebGate/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

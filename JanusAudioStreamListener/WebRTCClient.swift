@@ -18,9 +18,8 @@ class WebRTCClient: NSObject {
     private var remoteStream: RTCMediaStream?
     
     override init() {
-        let videoEncoderFactory = RTCDefaultVideoEncoderFactory()
-        let videoDecoderFactory = RTCDefaultVideoDecoderFactory()
-        self.factory = RTCPeerConnectionFactory(encoderFactory: videoEncoderFactory, decoderFactory: videoDecoderFactory)
+
+        self.factory = RTCPeerConnectionFactory()
         
         let constraints = RTCMediaConstraints(mandatoryConstraints: nil,
                                               optionalConstraints: ["DtlsSrtpKeyAgreement":kRTCMediaConstraintsValueTrue])
@@ -92,7 +91,9 @@ class WebRTCClient: NSObject {
     
     private func setAudioEnabled(_ isEnabled: Bool) {
         let audioTracks = self.peerConnection.senders.compactMap { return $0.track as? RTCAudioTrack }
-        audioTracks.forEach { $0.isEnabled = isEnabled }
+        audioTracks.forEach {
+            $0.isEnabled = isEnabled
+        }
     }
 }
 

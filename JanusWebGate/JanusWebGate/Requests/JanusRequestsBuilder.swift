@@ -45,6 +45,30 @@ class JanusRequestsBuilder {
         return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
     }
     
+    func createRestartActiveStreamRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"start\"}";
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
+    }
+    
+    func createPauseActiveStreamRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"pause\"}";
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
+    }
+    
+    func createStopActiveStreamRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"stop\"}";
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
+    }
+    
     func createStartCommandRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String, sdp: String) -> URLRequest
     {
         let jsep = JanusJSEPData(type: "answer", sdp: sdp)
@@ -53,7 +77,7 @@ class JanusRequestsBuilder {
         
         let data = try? JSONEncoder().encode(mess)
         
-        print("!!!!!START REQUEST : \(String(data: data!, encoding: .utf8) ?? ";;;;")")
+        print("!!!!!START REQUEST : \(String(data: data!, encoding: .utf8) ?? "!!!")")
 
         return self.POSTRequestWith(body: data!, sessionId: sessionId, pluginId: streamPluginId)
     }

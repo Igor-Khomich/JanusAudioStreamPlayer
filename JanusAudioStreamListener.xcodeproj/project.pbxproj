@@ -14,18 +14,19 @@
 		780EB28C21AAE66200312EE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 780EB28B21AAE66200312EE1 /* Assets.xcassets */; };
 		780EB28F21AAE66200312EE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 780EB28D21AAE66200312EE1 /* LaunchScreen.storyboard */; };
 		780EB29921AAE82E00312EE1 /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB29821AAE82E00312EE1 /* WebRTCClient.swift */; };
-		E0DC022521ABFC9300EB99A4 /* JanusWebGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E0DC022421ABFC9300EB99A4 /* JanusWebGate.framework */; };
-		E0DC022621ABFC9300EB99A4 /* JanusWebGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E0DC022421ABFC9300EB99A4 /* JanusWebGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		7825A9AF21AB4E41007D072B /* JanusWebGate.framework in Resources */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; };
+		7825A9B021B5B9F9007D072B /* JanusWebGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; };
+		7825A9B121B5B9F9007D072B /* JanusWebGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		E0DC022721ABFC9300EB99A4 /* Embed Frameworks */ = {
+		7825A9B221B5B9F9007D072B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				E0DC022621ABFC9300EB99A4 /* JanusWebGate.framework in Embed Frameworks */,
+				7825A9B121B5B9F9007D072B /* JanusWebGate.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -45,8 +46,6 @@
 		780EB29621AAE76800312EE1 /* JanusWebGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JanusWebGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		780EB29821AAE82E00312EE1 /* WebRTCClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebRTCClient.swift; sourceTree = "<group>"; };
 		D268DFE7D9E13FB2515ADBDB /* Pods-JanusAudioStreamListener.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JanusAudioStreamListener.release.xcconfig"; path = "Pods/Target Support Files/Pods-JanusAudioStreamListener/Pods-JanusAudioStreamListener.release.xcconfig"; sourceTree = "<group>"; };
-		E0DC022021ABFC7400EB99A4 /* JanusWebGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JanusWebGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E0DC022421ABFC9300EB99A4 /* JanusWebGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JanusWebGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0DC022521ABFC9300EB99A4 /* JanusWebGate.framework in Frameworks */,
+				7825A9B021B5B9F9007D072B /* JanusWebGate.framework in Frameworks */,
 				3D1B920EE73C65151EE36277 /* Pods_JanusAudioStreamListener.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -74,8 +73,6 @@
 		780EB27821AAE66100312EE1 = {
 			isa = PBXGroup;
 			children = (
-				E0DC022421ABFC9300EB99A4 /* JanusWebGate.framework */,
-				E0DC022021ABFC7400EB99A4 /* JanusWebGate.framework */,
 				780EB28321AAE66100312EE1 /* JanusAudioStreamListener */,
 				780EB28221AAE66100312EE1 /* Products */,
 				DD872CF24283C22FF214C85C /* Pods */,
@@ -126,7 +123,7 @@
 				780EB27E21AAE66100312EE1 /* Frameworks */,
 				780EB27F21AAE66100312EE1 /* Resources */,
 				F8C1370F15833D273D98EF3C /* [CP] Embed Pods Frameworks */,
-				E0DC022721ABFC9300EB99A4 /* Embed Frameworks */,
+				7825A9B221B5B9F9007D072B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -175,6 +172,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7825A9AF21AB4E41007D072B /* JanusWebGate.framework in Resources */,
 				780EB28F21AAE66200312EE1 /* LaunchScreen.storyboard in Resources */,
 				780EB28C21AAE66200312EE1 /* Assets.xcassets in Resources */,
 				780EB28A21AAE66100312EE1 /* Main.storyboard in Resources */,
@@ -385,14 +383,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VL9BCYEJ74;
+				DEVELOPMENT_TEAM = 7PCAYDAQNG;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JanusAudioStreamListener/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.igk.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igk.jwg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -405,14 +404,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = VL9BCYEJ74;
+				DEVELOPMENT_TEAM = 7PCAYDAQNG;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JanusAudioStreamListener/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = home.igk.test;
+				PRODUCT_BUNDLE_IDENTIFIER = com.igk.jwg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";

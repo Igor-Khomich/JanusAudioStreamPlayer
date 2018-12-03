@@ -6,10 +6,6 @@ public protocol JanusSessionDelegate: class {
     func startingEventReceived()
 }
 
-public enum JanusError: Error {
-    case runtimeError(String)
-}
-
 public class JanusSession{
     
     private var requestBuilder: JanusRequestsBuilder
@@ -76,19 +72,16 @@ public class JanusSession{
         let request = self.requestBuilder.createLongPollRequestWith(sessionId: self.sessionId!)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            if self.isResponseCorrect(data, response as? HTTPURLResponse, error){
-                
-                guard let data = data else {
-                    print("No data in LongPoll response")
-                    return
-                }
-                
-                self.proceedLongPollResponseData(data)
-                
-                self.SendLongPollEventsHandler() //TODO: condition to stop!!!!
+      
+            guard let data = data else {
+                print("No data in LongPoll response")
+                return
             }
             
+            self.proceedLongPollResponseData(data)
+            
+            self.SendLongPollEventsHandler() //TODO: condition to stop!!!!
+
         }
         
         task.resume()
@@ -104,9 +97,6 @@ public class JanusSession{
         if (responseString.contains("starting"))
         {
             self.delegate?.startingEventReceived()
-        //                self.webRTCClient.answer(completion: { (sdp) in
-        //                    print("\(sdp)")
-        //                })
         }
     
         if (responseString.contains("offer"))
@@ -165,12 +155,14 @@ public extension StreamingPlugin
         task.resume()
     }
     
-    public func GetStreamsList(completion: @escaping (Bool) -> ()) throws
+    public func GetStreamsList(completion: @escaping (String?, Error?) -> ())
     {
         print("AddStreamsList started")
         
         guard let sessionId = self.sessionId, let streamingPluginId = self.streamingPluginId  else {
-            throw JanusError.runtimeError("Create sessing with attached streaming plugin firstr")
+            let error = JanusWebGateError.runtimeError("Create sessing with attached streaming plugin firstr")
+            completion(nil, error)
+            return
         }
         
        let request = self.requestBuilder.createGetStreamsListRequestWith(
@@ -180,29 +172,20 @@ public extension StreamingPlugin
         )
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                // check for fundamental networking error
-                print("error=\(String(describing: error))")
-                return
-            }
             
-            let responseString = String(data: data, encoding: .utf8)
+            let responseString = String(data: data!, encoding: .utf8)
             print("responseString = \(String(describing: responseString))")
             
-            //TODO: return array here!!!!
-            
-            completion(true)
-            
-            print("AddStreamsList finished")
+            //TODO: parse data
+            completion(responseString, error)
             
             return
-            
         }
         
         task.resume()
     }
     
-    public func SendWatchRequest(streamId: Int, completion: @escaping () -> ())
+    public func SendWatchRequest(streamId: Int, completion: @escaping (Error?) -> ())
     {
         print("SendWatchOffer started")
         
@@ -218,22 +201,11 @@ public extension StreamingPlugin
         streamId: streamId
         )
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            
-            //TODO: Expecting offer in long poll, sems we do not need completion here, at all
-            if self.isResponseCorrect(data, response as? HTTPURLResponse, error) {
-                completion()
-            } else {
-                completion()
-            }
+        self.SendSimpleRequest(request: request, completion: completion)
 
-            return
-        }
-        
-        task.resume()
     }
     
-    public func SendStartCommand(sdp: String, completion: @escaping (Bool) -> ())
+    public func SendStartCommand(sdp: String, completion: @escaping (Error?) -> ())
     {
         print("SendStartCommand started")
         
@@ -249,14 +221,72 @@ public extension StreamingPlugin
         sdp: sdp
         )
         
+        self.SendSimpleRequest(request: request, completion: completion)
+
+    }
+    
+    public func SendReStartPausedStreamCommand(completion: @escaping (Error?) -> ())
+    {
+        print("SendReStartPausedStreamCommand started")
+        
+        guard let sessionId = self.sessionId, let streamingPluginId = self.streamingPluginId  else {
+            print("Create sessing with attached streaming plugin firstr")
+            return
+        }
+        
+        let request = self.requestBuilder.createRestartActiveStreamRequestWith(
+            sessionId: sessionId,
+            streamPluginId: streamingPluginId,
+            transactionId: self.transactionId
+        )
+        
+        self.SendSimpleRequest(request: request, completion: completion)
+
+    }
+    
+    public func SendPauseStreamCommand(completion: @escaping (Error?) -> ())
+    {
+        print("SendPauseStreamCommand started")
+        
+        guard let sessionId = self.sessionId, let streamingPluginId = self.streamingPluginId  else {
+            print("Create sessing with attached streaming plugin firstr")
+            return
+        }
+        
+        let request = self.requestBuilder.createPauseActiveStreamRequestWith(
+            sessionId: sessionId,
+            streamPluginId: streamingPluginId,
+            transactionId: self.transactionId
+        )
+        
+        self.SendSimpleRequest(request: request, completion: completion)
+
+    }
+    
+    public func SendStopStreamCommand(completion: @escaping (Error?) -> ())
+    {
+        print("SendStopStreamCommand started")
+        
+        guard let sessionId = self.sessionId, let streamingPluginId = self.streamingPluginId  else {
+            print("Create sessing with attached streaming plugin firstr")
+            return
+        }
+        
+        let request = self.requestBuilder.createStopActiveStreamRequestWith(
+            sessionId: sessionId,
+            streamPluginId: streamingPluginId,
+            transactionId: self.transactionId
+        )
+        
+        self.SendSimpleRequest(request: request, completion: completion)
+    }
+    
+    private func SendSimpleRequest(request: URLRequest, completion: @escaping (Error?) -> ())
+    {
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            //TODO: Expecting starting in long poll, sems we do not need completion here, at all
-            if self.isResponseCorrect(data, response as? HTTPURLResponse, error) {
-                completion(true)
-            } else {
-                completion(false)
-            }
-            
+            //TODO: Expecting starting in long poll
+            let error = self.isResponseCorrect(data, response as? HTTPURLResponse, error)
+            completion(error)
             return
         }
         
@@ -311,11 +341,7 @@ private typealias RequestsProcessing = JanusSession
 public extension RequestsProcessing
 {
     private func proceedResponse<T: Decodable>(_ dump: T.Type, _ data: Data?, _ response: URLResponse?, _ error: Error?) -> T? {
-        
-        if !self.isResponseCorrect(data, response as? HTTPURLResponse, error) {
-            return nil
-        }
-        
+
         guard let data = data else {
             return nil
         }
@@ -332,25 +358,21 @@ public extension RequestsProcessing
         return result
     }
     
-    private func isResponseCorrect(_ data: Data?, _ response: HTTPURLResponse?, _ error: Error?) -> Bool {
+    private func isResponseCorrect(_ data: Data?, _ response: HTTPURLResponse?, _ error: Error?) -> Error? {
         if error != nil  {
-            // check for fundamental networking error
-            print("error=\(String(describing: error))")
-            return false
+            return error
         }
         
-        if (response == nil)
+        if (response == nil || data == nil)
         {
-            return false
+            return JanusWebGateError.runtimeError("Network errror, unexpected response format")
         }
         
         if (response!.statusCode < 200 || response!.statusCode >= 300)  {
-            print("statusCode should be 2xx, but is \(response!.statusCode)")
-            print("response = \(String(describing: response!))")
-            return false
+            return JanusWebGateError.runtimeError("Network errror, unexpected status code: \(response!.statusCode)")
         }
         
-        return true
+        return nil
         
     }
 }
