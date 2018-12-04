@@ -10,7 +10,7 @@
 
 - streams list request
     
-## Instalation:
+## Installation:
 
     pod 'JanusWebGate'
 
