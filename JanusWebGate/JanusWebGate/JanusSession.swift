@@ -3,6 +3,7 @@ import Foundation
 
 public protocol JanusSessionDelegate: class {
     func offerReceived(sdp: String)
+    func trickleReceived(trickle: JanusTrickleCandidate)
     func startingEventReceived()
 }
 
@@ -45,6 +46,8 @@ public class JanusSession{
     {
         print("CreateJanusSession started")
         
+        self.transactionId = Utilites.randomString(length: 12)
+
         let request = self.requestBuilder.createJanusSessionRequestWith(transactionId: self.transactionId)
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
@@ -103,6 +106,22 @@ public class JanusSession{
         {
             self.tryParseSEPOffer(data: data)
         }
+        
+        if (responseString.contains("trickle"))
+        {
+            self.tryParseTrickle(data: data)
+        }
+    }
+    
+    public func tryParseTrickle(data: Data)
+    {
+        guard let response:JanusEventWithTrickle = try? JSONDecoder().decode(JanusEventWithTrickle.self, from: data) else
+        {
+            print("json decode error")
+            return
+        }
+
+       self.delegate?.trickleReceived(trickle: response.candidate)
     }
     
     public func tryParseSEPOffer(data: Data)
@@ -112,8 +131,8 @@ public class JanusSession{
             print("json decode error")
             return
         }
-
-       self.delegate?.offerReceived(sdp: response.jsep.sdp)
+        
+        self.delegate?.offerReceived(sdp: response.jsep.sdp)
     }
     
 }
@@ -131,6 +150,8 @@ public extension StreamingPlugin
             return
         }
         
+        self.transactionId = Utilites.randomString(length: 12)
+
         let request = self.requestBuilder.attachToStramPluginRequestWith(
             sessionId: sessionId,
             transactionId: self.transactionId
@@ -165,6 +186,8 @@ public extension StreamingPlugin
             return
         }
         
+        self.transactionId = Utilites.randomString(length: 12)
+
        let request = self.requestBuilder.createGetStreamsListRequestWith(
         sessionId: sessionId,
         streamPluginId: streamingPluginId,
@@ -194,6 +217,9 @@ public extension StreamingPlugin
             return
         }
         
+        self.transactionId = Utilites.randomString(length: 12)
+
+        
        let request = self.requestBuilder.createWatchOfferRequestWith(
         sessionId: sessionId,
         streamPluginId: streamingPluginId,
@@ -214,6 +240,9 @@ public extension StreamingPlugin
             return
         }
         
+        self.transactionId = Utilites.randomString(length: 12)
+
+        
        let request = self.requestBuilder.createStartCommandRequestWith(
         sessionId: sessionId,
         streamPluginId: streamingPluginId,
@@ -224,6 +253,52 @@ public extension StreamingPlugin
         self.SendSimpleRequest(request: request, completion: completion)
 
     }
+   
+    public func SendLocalCandidate(candidate: String, sdpMLineIndex : Int32, sdpMid: String, completion: @escaping (Error?) -> ())
+    {
+        print("SendLocalCandidate started")
+        
+        guard let sessionId = self.sessionId, let streamingPluginId = self.streamingPluginId  else {
+            print("Create sessing with attached streaming plugin firstr")
+            return
+        }
+        
+        self.transactionId = Utilites.randomString(length: 12)
+
+        let request = self.requestBuilder.createTrickleCandidateRequestWith(
+            sessionId: sessionId,
+            streamPluginId: streamingPluginId,
+            transactionId: self.transactionId,
+            candidate: candidate,
+            sdpMLineIndex : sdpMLineIndex,
+            sdpMid: sdpMid
+        )
+        
+        self.SendSimpleRequest(request: request, completion: completion)
+        
+    }
+    
+    public func SendLocalCandidateComplete(completion: @escaping (Error?) -> ())
+    {
+        print("SendLocalCandidateComplete started")
+        
+        guard let sessionId = self.sessionId, let streamingPluginId = self.streamingPluginId  else {
+            print("Create sessing with attached streaming plugin firstr")
+            return
+        }
+        
+        self.transactionId = Utilites.randomString(length: 12)
+        
+        
+        let request = self.requestBuilder.createLocalCandidateCompleteRequestWith(
+            sessionId: sessionId,
+            streamPluginId: streamingPluginId,
+            transactionId: self.transactionId
+        )
+        
+        self.SendSimpleRequest(request: request, completion: completion)
+        
+    }
     
     public func SendReStartPausedStreamCommand(completion: @escaping (Error?) -> ())
     {
@@ -233,6 +308,9 @@ public extension StreamingPlugin
             print("Create sessing with attached streaming plugin firstr")
             return
         }
+        
+        self.transactionId = Utilites.randomString(length: 12)
+
         
         let request = self.requestBuilder.createRestartActiveStreamRequestWith(
             sessionId: sessionId,
@@ -253,6 +331,9 @@ public extension StreamingPlugin
             return
         }
         
+        self.transactionId = Utilites.randomString(length: 12)
+
+        
         let request = self.requestBuilder.createPauseActiveStreamRequestWith(
             sessionId: sessionId,
             streamPluginId: streamingPluginId,
@@ -272,6 +353,8 @@ public extension StreamingPlugin
             return
         }
         
+        self.transactionId = Utilites.randomString(length: 12)
+
         let request = self.requestBuilder.createStopActiveStreamRequestWith(
             sessionId: sessionId,
             streamPluginId: streamingPluginId,

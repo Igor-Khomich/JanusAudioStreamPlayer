@@ -12,7 +12,7 @@ class WebRTCClient: NSObject {
     let peerConnection: RTCPeerConnection
     weak var delegate: WebRTCClientDelegate?
     var localCandidates = [RTCIceCandidate]()
-    private let mediaConstrains = [kRTCMediaConstraintsOfferToReceiveAudio: kRTCMediaConstraintsValueFalse,
+    private let mediaConstrains = [kRTCMediaConstraintsOfferToReceiveAudio: kRTCMediaConstraintsValueTrue,
                                    kRTCMediaConstraintsOfferToReceiveVideo: kRTCMediaConstraintsValueFalse]
     
     private var remoteStream: RTCMediaStream?
@@ -90,7 +90,10 @@ class WebRTCClient: NSObject {
     
     
     private func setAudioEnabled(_ isEnabled: Bool) {
-        let audioTracks = self.peerConnection.senders.compactMap { return $0.track as? RTCAudioTrack }
+        let audioTracks = self.peerConnection.senders.compactMap {
+            return $0.track as? RTCAudioTrack
+            
+        }
         audioTracks.forEach {
             $0.isEnabled = isEnabled
         }

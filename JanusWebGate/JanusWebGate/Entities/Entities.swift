@@ -78,7 +78,31 @@ public struct JanusEventWithJSEP: Decodable {
     let jsep : JanusJSEPData
 }
 
-public struct JanusJSEPData: Codable {
+public struct JanusEventWithTrickle: Codable {
+    let janus: String
+    let session_id : Int64
+    let sender : Int64
+    let candidate : JanusTrickleCandidate
+}
+
+public struct JanusTrickleLocalCandidate: Encodable {
+    let janus: String
+    let transaction : String
+    let candidate : JanusTrickleCandidate
+}
+
+public struct JanusTrickleCandidate: Encodable, Decodable {
+    public let sdpMid: String
+    public let sdpMLineIndex : Int32
+    public let candidate : String
+}
+
+public struct JanusJSEPData: Encodable, Decodable  {
+    let type: String
+    let sdp : String
+}
+
+public struct JanusJSEPOUTPUTData: Codable {
     let type: String
     let sdp : String
 }
@@ -102,6 +126,13 @@ public struct JanusMessageWithStartRequest: Encodable {
     let transaction: String
     let body: JanusStartRequestBody
     let jsep: JanusJSEPData
+}
+
+public struct JanusOUTPUTMessageWithStartRequest: Encodable {
+    let janus: String
+    let transaction: String
+    let body: JanusStartRequestBody
+    let jsep: JanusJSEPOUTPUTData
 }
 
 public struct JanusStartRequestBody: Encodable {

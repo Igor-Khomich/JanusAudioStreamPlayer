@@ -12,7 +12,9 @@ import WebRTC
 
 class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelegate {
     
-    private let janusSession = JanusSession(url: "http://webrtc.urancompany.com:8088/janus/")
+    //private let janusSession = JanusSession(url: "https://stage-webrtc.thespeech.app:8089/janus")
+   private let janusSession = JanusSession(url: "http://webrtc.urancompany.com:8088/janus")
+
     private var webRTCClient: WebRTCClient?
     private var playingStream = false
     @IBOutlet weak var StreamIdTextField: UITextField!
@@ -63,13 +65,33 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
         }
     }
     
+    var loccandidatesCount: Int = 0
+    
     func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
         print("didDiscoverLocalCandidate")
+        self.janusSession.SendLocalCandidate(candidate: candidate.sdp, sdpMLineIndex: candidate.sdpMLineIndex, sdpMid: candidate.sdpMid!) { (error) in
+            print("LocalCandidate sent")
+            self.loccandidatesCount = self.loccandidatesCount + 1
+            
+//            if (self.loccandidatesCount == 2)
+//            {
+//                self.janusSession.SendLocalCandidateComplete(completion: { (error) in
+//                    print("SendLocalCandidateComplete sent")
+//                })
+//            }
+        }
     }
     
     func startingEventReceived() {
         print("startingEventReceived")
         self.playingStream = true
+
+    }
+    
+    func trickleReceived(trickle: JanusTrickleCandidate)
+    {
+        let candidate: RTCIceCandidate = RTCIceCandidate(sdp: trickle.candidate, sdpMLineIndex: trickle.sdpMLineIndex, sdpMid: trickle.sdpMid)
+        self.webRTCClient!.set(remoteCandidate: candidate)
     }
     
     func offerReceived(sdp: String)
@@ -99,6 +121,9 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
         janusSession.CreaseStreamingPluginSession { (result) in
             if result {
                 //TODO: ready to watch
+//                self.janusSession.GetStreamsList(completion: { (result, error) in
+//                    print("GetStreamsList: \(result)")
+//                })
             }
         }
     }

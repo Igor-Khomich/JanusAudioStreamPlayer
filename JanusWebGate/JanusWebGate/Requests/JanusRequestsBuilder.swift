@@ -53,6 +53,13 @@ class JanusRequestsBuilder {
         return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
     }
     
+    func createLocalCandidateCompleteRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
+    {
+        let body = "{\"janus\":\"trickle\",\"candidate\":{\"completed\":true},\"transaction\":\"\(transactionId)\"}"
+        
+        return self.POSTRequestWith(body: body, sessionId: sessionId, pluginId: streamPluginId)
+    }
+    
     func createPauseActiveStreamRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
     {
         let body = "{\"request\" : \"pause\"}";
@@ -71,9 +78,9 @@ class JanusRequestsBuilder {
     
     func createStartCommandRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String, sdp: String) -> URLRequest
     {
-        let jsep = JanusJSEPData(type: "answer", sdp: sdp)
+        let jsep = JanusJSEPOUTPUTData(type: "answer", sdp: sdp)
         let body = JanusStartRequestBody(request: "start")
-        let mess = JanusMessageWithStartRequest(janus: "message", transaction: "\(transactionId)", body: body, jsep: jsep)
+        let mess = JanusOUTPUTMessageWithStartRequest(janus: "message", transaction: "\(transactionId)", body: body, jsep: jsep)
         
         let data = try? JSONEncoder().encode(mess)
         
@@ -82,6 +89,21 @@ class JanusRequestsBuilder {
         return self.POSTRequestWith(body: data!, sessionId: sessionId, pluginId: streamPluginId)
     }
     
+    func createTrickleCandidateRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String, candidate: String, sdpMLineIndex : Int32, sdpMid: String) -> URLRequest
+    {
+        let candidate = JanusTrickleCandidate(sdpMid: sdpMid, sdpMLineIndex: sdpMLineIndex, candidate: candidate)
+        let body = JanusTrickleLocalCandidate(
+            janus: "trickle",
+            transaction : transactionId,
+            candidate : candidate
+        )
+        
+        let data = try? JSONEncoder().encode(body)
+        
+        print("TRICKLE REQUEST : \(String(data: data!, encoding: .utf8) ?? "!!!")")
+        
+        return self.POSTRequestWith(body: data!, sessionId: sessionId, pluginId: streamPluginId)
+    }
     
     func attachToStramPluginRequestWith(sessionId: Int64, transactionId: String) -> URLRequest
     {
