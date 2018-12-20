@@ -12,8 +12,7 @@ import WebRTC
 
 class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelegate {
     
-    //private let janusSession = JanusSession(url: "https://stage-webrtc.thespeech.app:8089/janus")
-   private let janusSession = JanusSession(url: "http://webrtc.urancompany.com:8088/janus")
+   private let janusSession = JanusSession(url: "http://mysite.com:8088/janus")
 
     private var webRTCClient: WebRTCClient?
     private var playingStream = false
