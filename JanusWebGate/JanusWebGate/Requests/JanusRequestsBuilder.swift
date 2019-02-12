@@ -158,6 +158,7 @@ class JanusRequestsBuilder {
         var request = URLRequest(url: url)
         
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.setValue("max-age=0", forHTTPHeaderField: "Cache-Control")
         request.httpMethod = "POST"
         
         request.httpBody = body
