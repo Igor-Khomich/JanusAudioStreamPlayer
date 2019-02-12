@@ -1,3 +1,10 @@
+//
+//  ViewController.swift
+//  JanusAudioStreamListener
+//
+//  Created by Igor Khomich on 11/25/18.
+//  Copyright © 2018 Igor Khomich. All rights reserved.
+//
 
 import UIKit
 import JanusWebGate
@@ -5,7 +12,7 @@ import WebRTC
 
 class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelegate {
     
-   private let janusSession = JanusSession(url: "http://myhost:8088/janus")
+   private let janusSession = JanusSession(url: "http://mysite.com:8088/janus")
 
     private var webRTCClient: WebRTCClient?
     private var playingStream = false
@@ -65,11 +72,12 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
             print("LocalCandidate sent")
             self.loccandidatesCount = self.loccandidatesCount + 1
             
-       
+//            if (self.loccandidatesCount == 2)
+//            {
 //                self.janusSession.SendLocalCandidateComplete(completion: { (error) in
 //                    print("SendLocalCandidateComplete sent")
 //                })
-            
+//            }
         }
     }
     
@@ -78,10 +86,9 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
         self.playingStream = true
 
     }
-    var trickleNum: Int = 0
+    
     func trickleReceived(trickle: JanusTrickleCandidate)
     {
-        trickleNum = trickleNum + 1
         let candidate: RTCIceCandidate = RTCIceCandidate(sdp: trickle.candidate, sdpMLineIndex: trickle.sdpMLineIndex, sdpMid: trickle.sdpMid)
         self.webRTCClient!.set(remoteCandidate: candidate)
     }
