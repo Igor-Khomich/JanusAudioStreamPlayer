@@ -12,7 +12,7 @@ import WebRTC
 
 class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelegate {
     
-   private let janusSession = JanusSession(url: "http://mysite.com:8088/janus")
+   private let janusSession = JanusSession(url: "ttps://janus.conf.meetecho.com/janus")
 
     private var webRTCClient: WebRTCClient?
     private var playingStream = false
@@ -123,15 +123,29 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
 //                self.janusSession.GetStreamsList(completion: { (result, error) in
 //                    print("GetStreamsList: \(result)")
 //                })
+                
             }
         }
     }
     
     func sendWatch()
     {
-        self.webRTCClient = WebRTCClient()
-        self.webRTCClient!.delegate = self
 
+        #if arch(arm64)
+        let remoteRenderer = RTCMTLVideoView(frame: self.view.frame)
+        remoteRenderer.videoContentMode = .scaleAspectFill
+        #else
+        let remoteRenderer = RTCEAGLVideoView(frame: self.view.frame)
+        #endif
+
+        // We use Google's public stun/turn server. For production apps you should deploy your own stun/turn servers.
+        self.webRTCClient = WebRTCClient(iceServers: ["stun:stun.l.google.com:19302"])
+        self.webRTCClient!.delegate = self
+        self.webRTCClient!.renderRemoteVideo(to: remoteRenderer)
+        
+        self.embedView(remoteRenderer, into: self.view)
+        
+        
         //TODO: add checks
         let streamId: Int = Int(self.StreamIdTextField.text!)!
         self.janusSession.SendWatchRequest(streamId: streamId) { (error) in
@@ -140,5 +154,22 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
  
     }
 
+    private func embedView(_ view: UIView, into containerView: UIView) {
+        containerView.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[view]|",
+                                                                    options: [],
+                                                                    metrics: nil,
+                                                                    views: ["view":view]))
+        
+        containerView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|",
+                                                                    options: [],
+                                                                    metrics: nil,
+                                                                    views: ["view":view]))
+        containerView.layoutIfNeeded()
+        
+        containerView.sendSubviewToBack(view)
+    }
+    
 }
 
