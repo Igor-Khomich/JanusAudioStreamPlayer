@@ -10,9 +10,9 @@ import UIKit
 import JanusWebGate
 import WebRTC
 
-class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelegate {
-    
-   private let janusSession = JanusSession(url: "http://mysite.com:8088/janus")
+class ViewController: UIViewController, JanusSessionDelegate {
+
+    private let janusSession = JanusSession(url: "https://janus.conf.meetecho.com/janus")
 
     private var webRTCClient: WebRTCClient?
     private var playingStream = false
@@ -23,10 +23,11 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
         // Do any additional setup after loading the view, typically from a nib.
         NotificationCenter.default.addObserver(forName: AVAudioSession.routeChangeNotification, object: nil, queue: nil, using: routeChange)
 
-        self.janusSession.delegate = self
+        janusSession.delegate = self
+        janusSession.audioBridgeDelegate = self
         
-        self.runStreamingPluginSequence()
-        
+//        self.runStreamingPluginSequence()
+        self.runAudioBridgePluginSequence()
     }
     
     private func routeChange(_ n: Notification) {
@@ -53,6 +54,14 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
     }
     
     @IBAction func PlayStream(_ sender: Any) {
+
+//        self.playStream()
+        
+        self.joinAudioRoom()
+    }
+    
+    func playStream()
+    {
         if (!playingStream) {
             //request new stream
             self.sendWatch()
@@ -61,23 +70,6 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
             self.janusSession.SendReStartPausedStreamCommand { (result) in
                 //TODO: do something
             }
-        }
-    }
-    
-    var loccandidatesCount: Int = 0
-    
-    func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
-        print("didDiscoverLocalCandidate")
-        self.janusSession.SendLocalCandidate(candidate: candidate.sdp, sdpMLineIndex: candidate.sdpMLineIndex, sdpMid: candidate.sdpMid!) { (error) in
-            print("LocalCandidate sent")
-            self.loccandidatesCount = self.loccandidatesCount + 1
-            
-//            if (self.loccandidatesCount == 2)
-//            {
-//                self.janusSession.SendLocalCandidateComplete(completion: { (error) in
-//                    print("SendLocalCandidateComplete sent")
-//                })
-//            }
         }
     }
     
@@ -104,7 +96,6 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
         }
     }
     
-    
     func createLocalSdp()
     {
         self.webRTCClient!.answer { (localSdp) in
@@ -114,6 +105,16 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
             })
         }
     }
+    
+    func generateLocalSdpOffer(completion: @escaping (String) -> ())
+    {
+        self.webRTCClient!.offer { (rtcDescription) in
+            return completion(rtcDescription.sdp)
+        }
+    }
+    
+    
+    
     
     func runStreamingPluginSequence()
     {
@@ -138,7 +139,80 @@ class ViewController: UIViewController, WebRTCClientDelegate, JanusSessionDelega
             print("Watch offer finished, error: \(String(describing: error))")
         }
  
+        self.webRTCClient!.unmuteAudio()
+    }
+    
+  //MARK: AUDIO ROOM REQUEST LIFE CYCLE
+    
+    func runAudioBridgePluginSequence()
+    {
+        janusSession.CreaseAudioBridgePluginSession{ (result) in
+            if result {
+                self.janusSession.GetAudioRoomsList(completion: { (result, error) in
+                    print("GetStreamsList: \(result)")
+                })
+            }
+        }
+    }
+    
+    func joinAudioRoom()
+    {
+        if (!playingStream) {
+            //request new stream
+            self.sendJoinRoom()
+        } else {
+            //proceed play/pause/mute etc. here
+        }
+    }
+    
+    func sendJoinRoom()
+    {
+        self.webRTCClient = WebRTCClient()
+        self.webRTCClient!.delegate = self
+        
+        let roomId: Int = Int(self.StreamIdTextField.text!)!
+        self.janusSession.JoinToAudioRoomRequest(roomId: roomId) { (error) in
+            print("Watch offer finished, error: \(String(describing: error))")
+            
+            self.generateLocalSdpOffer { (sdp) in
+                
+                self.janusSession.sendAudioRoomConfigureRequestWith(offer: sdp) { (error) in
+                    print("configure request sent, error: \(String(describing: error))")
+                    
+                    self.webRTCClient!.unmuteAudio()
+                }
+            }
+            
+        }
+    }
+}
+
+extension ViewController: WebRTCClientDelegate {
+    
+    func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState) {
+        print("webRTCClient didChangeConnectionState!!!")
+    }
+    
+    func webRTCClient(_ client: WebRTCClient, didReceiveData data: Data) {
+        //IDLE
+    }
+    
+    
+    func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
+           print("didDiscoverLocalCandidate")
+           self.janusSession.SendLocalCandidate(candidate: candidate.sdp, sdpMLineIndex: candidate.sdpMLineIndex, sdpMid: candidate.sdpMid!) { (error) in
+               print("LocalCandidate sent")
+           }
+       }
+    
+}
+
+extension ViewController: AudioBridgeDelegate {
+    
+    func joinedRoom(event: JanusAudioRoomJoinedEvent) {
+        print("joined to room with participants \(event.participants)")
     }
 
 }
+
 

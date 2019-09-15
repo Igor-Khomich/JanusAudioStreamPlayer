@@ -1,6 +1,8 @@
 
 import Foundation
 
+public typealias Participants = [String]
+
 public struct CreateSessionResponse: Decodable {
     let janus: String
     let transaction: String
@@ -25,48 +27,6 @@ public struct AttachToPluginResponse: Decodable {
 
 public struct ResponseData: Decodable {
     let id: Int64
-}
-
-public struct RTPForwardResponse: Decodable {
-    let janus: String
-    let transaction: String
-    let sessionId: Int64
-    let sender: Int64
-    let plugindata: AudiobridgePluginData
-    
-    func isSuccessfull() -> Bool
-    {
-        return (janus == "success")
-    }
-    
-    enum CodingKeys : String, CodingKey {
-        case sessionId = "session_id"
-        case janus = "janus"
-        case transaction = "transaction"
-        case sender = "sender"
-        case plugindata = "plugindata"
-    }
-}
-
-public struct AudiobridgePluginData: Decodable {
-    let plugin: String
-    let data : AudiobridgePluginAdditionalData
-}
-
-public struct AudiobridgePluginAdditionalData: Decodable {
-    let audiobridge: String
-    let room : Int
-    let streamId : Int64
-    let host : String
-    let port : UInt32
-    
-    enum CodingKeys : String, CodingKey {
-        case audiobridge = "audiobridge"
-        case room = "room"
-        case streamId = "stream_id"
-        case host = "host"
-        case port = "port"
-    }
 }
 
 public struct JanusEventWithJSEP: Decodable {
@@ -139,6 +99,41 @@ public struct JanusStartRequestBody: Encodable {
     let request: String
 }
 
+//MARK: AUDIO BRIDGE
 
+public struct AudioBridgeJoinedEventResponse: Codable {
+    let janus: String
+    let transaction: String
+    let sessionId: Int64
+    let sender: Int64
+    let plugindata: AudiobridgeJoinedPluginData
+    
+    enum CodingKeys : String, CodingKey {
+        case sessionId = "session_id"
+        case janus = "janus"
+        case transaction = "transaction"
+        case sender = "sender"
+        case plugindata = "plugindata"
+    }
+}
 
+public struct AudiobridgeJoinedPluginData: Codable {
+    let plugin: String
+    let data : JanusAudioRoomJoinedEvent
+}
+
+public struct JanusAudioRoomJoinedEvent: Codable {
+    public let audiobridge: String
+    public let room: Int64
+    public let id: Int64
+    public let participants: [JanusAudioRoomParticipant]
+}
+
+public struct JanusAudioRoomParticipant: Codable {
+    public let id: Int64
+    public let display: String?
+    public let setup: Bool
+    public let muted: Bool
+    public let talking: Bool?
+}
 

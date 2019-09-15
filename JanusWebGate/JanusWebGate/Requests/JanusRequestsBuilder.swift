@@ -12,6 +12,10 @@ class JanusRequestsBuilder {
     
     private let baseUrl: String
     
+    public var pluginId: Int64?
+    public var sessionId: Int64?
+    public var transactionId: String?
+
     init(url: String) {
         
         var tempUrl = url
@@ -27,53 +31,6 @@ class JanusRequestsBuilder {
         let body = "{\"janus\":\"create\",\"transaction\":\"\(transactionId)\"}"
         
         return self.POSTRequestWith(body: body)
-    }
-    
-    func createGetStreamsListRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
-    {
-        let body = "{\"request\" : \"list\"}";
-        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
-        
-        return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
-    }
-    
-    func createWatchOfferRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String, streamId: Int) -> URLRequest
-    {
-        let body = "{\"request\" : \"watch\", \"id\" : \(streamId)}"
-        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
-        
-        return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
-    }
-    
-    func createRestartActiveStreamRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
-    {
-        let body = "{\"request\" : \"start\"}";
-        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
-        
-        return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
-    }
-    
-    func createLocalCandidateCompleteRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
-    {
-        let body = "{\"janus\":\"trickle\",\"candidate\":{\"completed\":true},\"transaction\":\"\(transactionId)\"}"
-        
-        return self.POSTRequestWith(body: body, sessionId: sessionId, pluginId: streamPluginId)
-    }
-    
-    func createPauseActiveStreamRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
-    {
-        let body = "{\"request\" : \"pause\"}";
-        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
-        
-        return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
-    }
-    
-    func createStopActiveStreamRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String) -> URLRequest
-    {
-        let body = "{\"request\" : \"stop\"}";
-        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
-        
-        return self.POSTRequestWith(body: rBody, sessionId: sessionId, pluginId: streamPluginId)
     }
     
     func createStartCommandRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String, sdp: String) -> URLRequest
@@ -105,13 +62,6 @@ class JanusRequestsBuilder {
         return self.POSTRequestWith(body: data!, sessionId: sessionId, pluginId: streamPluginId)
     }
     
-    func attachToStramPluginRequestWith(sessionId: Int64, transactionId: String) -> URLRequest
-    {
-        let body = "{\"janus\":\"attach\",\"plugin\":\"janus.plugin.streaming\",\"transaction\":\"\(transactionId)\"}"
-        
-        return self.POSTRequestWith(body: body, sessionId: sessionId)
-    }
-    
     func createLongPollRequestWith(sessionId: Int64) -> URLRequest
     {
         let url = URL(string: baseUrl + "/" + String(describing: sessionId))!
@@ -124,16 +74,6 @@ class JanusRequestsBuilder {
     }
     
     private func POSTRequestWith(body: String) -> URLRequest
-    {
-        return self.POSTRequestWith(body: body, sessionId: nil, pluginId: nil)
-    }
-    
-    private func POSTRequestWith(body: String, sessionId: Int64?) -> URLRequest
-    {
-        return self.POSTRequestWith(body: body, sessionId: sessionId, pluginId: nil)
-    }
-    
-    private func POSTRequestWith(body: String, sessionId: Int64?, pluginId: Int64?) -> URLRequest
     {
         let data = body.data(using: .utf8)
         
@@ -168,3 +108,96 @@ class JanusRequestsBuilder {
     }
 }
 
+private typealias AudioBridgePluginRequestsBuilder = JanusRequestsBuilder
+extension AudioBridgePluginRequestsBuilder
+{
+    func attachToAudioBridgePluginRequestWith(sessionId: Int64, transactionId: String) -> URLRequest
+    {
+        let body = "{\"janus\":\"attach\",\"plugin\":\"janus.plugin.audiobridge\",\"transaction\":\"\(transactionId)\"}"
+        
+        return self.POSTRequestWith(body: body)
+    }
+    
+    func createGetAudioRoomsListRequestWith(transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"list\"}";
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+    
+    func createAudioRoomConfigureRequestWith(offer sdp: String, transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"configure\", \"muted\" : \"false\"}"
+        let jsepOffer = "{\"type\":\"offer\",\"sdp\": \"\(sdp)\"}"
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body), \"jsep\" : \(jsepOffer)}"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+    
+    func createJoinToAudioRoomRequestWith(transactionId: String, roomId: Int) -> URLRequest
+    {
+        let body = "{\"request\" : \"join\", \"room\" : \(roomId)}"
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+}
+
+private typealias StreamPluginRequestsBuilder = JanusRequestsBuilder
+extension StreamPluginRequestsBuilder
+{
+    func attachToStreamPluginRequestWith(transactionId: String) -> URLRequest
+    {
+        let body = "{\"janus\":\"attach\",\"plugin\":\"janus.plugin.streaming\",\"transaction\":\"\(transactionId)\"}"
+        
+        return self.POSTRequestWith(body: body)
+    }
+    
+    func createGetStreamsListRequestWith(transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"list\"}";
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+    
+    func createWatchOfferRequestWith(transactionId: String, streamId: Int) -> URLRequest
+    {
+        let body = "{\"request\" : \"watch\", \"id\" : \(streamId)}"
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+    
+    func createRestartActiveStreamRequestWith(transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"start\"}";
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+    
+    func createLocalCandidateCompleteRequestWith(transactionId: String) -> URLRequest
+    {
+        let body = "{\"janus\":\"trickle\",\"candidate\":{\"completed\":true},\"transaction\":\"\(transactionId)\"}"
+        
+        return self.POSTRequestWith(body: body)
+    }
+    
+    func createPauseActiveStreamRequestWith(transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"pause\"}";
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+    
+    func createStopActiveStreamRequestWith(transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"stop\"}";
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+}

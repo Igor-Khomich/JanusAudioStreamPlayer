@@ -16,6 +16,13 @@ class WebRTCClient: NSObject {
                                    kRTCMediaConstraintsOfferToReceiveVideo: kRTCMediaConstraintsValueFalse]
     
     private var remoteStream: RTCMediaStream?
+    private var localStream: RTCMediaStream?
+    
+    deinit {
+        if let stream = peerConnection.localStreams.first {
+            peerConnection.remove(stream)
+        }
+    }
     
     override init() {
 
@@ -38,6 +45,15 @@ class WebRTCClient: NSObject {
         super.init()
 
         self.peerConnection.delegate = self
+        self.setupLocalStream()
+    }
+    
+    private func setupLocalStream() {
+        
+        localStream = factory.mediaStream(withStreamId: "streamId0")
+        
+        let localAudioTrack = factory.audioTrack(withTrackId: "audioid0")
+        localStream?.addAudioTrack(localAudioTrack)
     }
     
     func offer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void) {
@@ -106,11 +122,6 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
         print("peerConnection new signaling state: \(stateChanged)")
     }
     
-    func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
-        self.remoteStream = stream
-        print("peerConnection did add stream")
-    }
-    
     func peerConnection(_ peerConnection: RTCPeerConnection, didRemove stream: RTCMediaStream) {
         print("peerConnection did remote stream")
     }
@@ -121,10 +132,6 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceConnectionState) {
         print("peerConnection new connection state: \(newState)")
-    }
-    
-    func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
-        print("peerConnection new gathering state: \(newState)")
     }
     
     func peerConnection(_ peerConnection: RTCPeerConnection, didGenerate candidate: RTCIceCandidate) {
@@ -139,4 +146,45 @@ extension WebRTCClient: RTCPeerConnectionDelegate {
     func peerConnection(_ peerConnection: RTCPeerConnection, didOpen dataChannel: RTCDataChannel) {
         print("peerConnection did open data channel")
     }
+    
+    public func peerConnection(_ peerConnection: RTCPeerConnection, didAdd stream: RTCMediaStream) {
+        print("peerConnection didAdd stream:")
+        
+        if stream == localStream {
+            return
+        }
+        
+        self.remoteStream = stream
+        
+    }
+    
+    public func peerConnection(_ peerConnection: RTCPeerConnection, didChange newState: RTCIceGatheringState) {
+           print("peerConnection didChange newState: RTCIceGatheringState, \(newState)")
+           
+           if newState != .complete {
+               return
+           }
+           
+   //        print("1. userList", peerConnectionUserList)
+   //
+   //        for user in peerConnectionUserList {
+   //
+   //            print("2. user, self.peerConnection[user]", user, self.peerConnections[user])
+   //
+   //            if self.peerConnections[user] == peerConnection {
+   //                print("peerConnection connected", peerConnection)
+   //                guard let callback = self.onCreatedLocalSdp, let localDescription = WebRTCUtil.jsonFromDescription(description: self.peerConnections[user]?.localDescription) else {
+   //                    print("no localDescription")
+   //                    return
+   //                }
+   //
+   //                callback(localDescription)
+   //                self.onCreatedLocalSdp = nil
+   //
+   //                print("3. peerConnection didChange")
+   //            }
+   //
+   //        }
+           
+       }
 }
