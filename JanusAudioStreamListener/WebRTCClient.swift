@@ -14,6 +14,8 @@ class WebRTCClient: NSObject {
     var localCandidates = [RTCIceCandidate]()
     private let mediaConstrains = [kRTCMediaConstraintsOfferToReceiveAudio: kRTCMediaConstraintsValueTrue,
                                    kRTCMediaConstraintsOfferToReceiveVideo: kRTCMediaConstraintsValueFalse]
+//                                   kRTCMediaConstraintsVoiceActivityDetection: kRTCMediaConstraintsValueTrue,
+//                                   kRTCMediaConstraintsIceRestart: kRTCMediaConstraintsValueTrue]
     
     private var remoteStream: RTCMediaStream?
     private var localStream: RTCMediaStream?
@@ -54,6 +56,7 @@ class WebRTCClient: NSObject {
         
         let localAudioTrack = factory.audioTrack(withTrackId: "audioid0")
         localStream?.addAudioTrack(localAudioTrack)
+//        self.peerConnection.add(localAudioTrack, streamIds: ["streamId0"])
     }
     
     func offer(completion: @escaping (_ sdp: RTCSessionDescription) -> Void) {

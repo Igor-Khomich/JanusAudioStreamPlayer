@@ -12,8 +12,9 @@ import WebRTC
 
 class ViewController: UIViewController, JanusSessionDelegate {
 
-    private let janusSession = JanusSession(url: "https://janus.conf.meetecho.com/janus")
-
+//    private let janusSession = JanusSession(url: "https://janus.conf.meetecho.com/janus")
+    private let janusSession = JanusSession(url: "https://streaming.devserver.app:8089/janus/")
+    
     private var webRTCClient: WebRTCClient?
     private var playingStream = false
     @IBOutlet weak var StreamIdTextField: UITextField!
@@ -149,7 +150,7 @@ class ViewController: UIViewController, JanusSessionDelegate {
         janusSession.CreaseAudioBridgePluginSession{ (result) in
             if result {
                 self.janusSession.GetAudioRoomsList(completion: { (result, error) in
-                    print("GetStreamsList: \(result)")
+                    print("GetStreamsList: \(String(describing: result))")
                 })
             }
         }
@@ -173,16 +174,6 @@ class ViewController: UIViewController, JanusSessionDelegate {
         let roomId: Int = Int(self.StreamIdTextField.text!)!
         self.janusSession.JoinToAudioRoomRequest(roomId: roomId) { (error) in
             print("Watch offer finished, error: \(String(describing: error))")
-            
-            self.generateLocalSdpOffer { (sdp) in
-                
-                self.janusSession.sendAudioRoomConfigureRequestWith(offer: sdp) { (error) in
-                    print("configure request sent, error: \(String(describing: error))")
-                    
-                    self.webRTCClient!.unmuteAudio()
-                }
-            }
-            
         }
     }
 }
@@ -211,6 +202,22 @@ extension ViewController: AudioBridgeDelegate {
     
     func joinedRoom(event: JanusAudioRoomJoinedEvent) {
         print("joined to room with participants \(event.participants)")
+        
+        self.generateLocalSdpOffer { (sdp) in
+            
+            self.janusSession.sendAudioRoomConfigureRequestWith(offer: sdp) { (error) in
+                print("configure request sent, error: \(String(describing: error))")
+                
+                self.webRTCClient!.unmuteAudio()
+            }
+        }
+    }
+    
+    func configuredAnswerReceived(answer: JanusAudioRoomConfigureAnswer) {
+        let rtc = RTCSessionDescription(type: .prAnswer, sdp: answer.jsep.sdp)
+        self.webRTCClient!.set(remoteSdp: rtc) { (error) in
+            print("configure answer sent to WebRTC with error: \(String(describing: error))")
+        }
     }
 
 }

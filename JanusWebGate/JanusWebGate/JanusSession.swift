@@ -14,6 +14,7 @@ public protocol JanusSessionDelegate: class {
 
 public protocol AudioBridgeDelegate: class {
     func joinedRoom(event: JanusAudioRoomJoinedEvent)
+    func configuredAnswerReceived(answer: JanusAudioRoomConfigureAnswer)
 }
 
 public class JanusSession{
@@ -163,6 +164,22 @@ public class JanusSession{
         {
             self.tryParseJoinedEvent(data: data)
         }
+        
+        if (responseString.contains("jsep") && responseString.contains("audiobridge"))
+        {
+            self.tryParseConfiguredEvent(data: data)
+        }
+    }
+    
+    public func tryParseConfiguredEvent(data: Data)
+    {
+        guard let response:JanusAudioRoomConfigureAnswer = try? JSONDecoder().decode(JanusAudioRoomConfigureAnswer.self, from: data) else
+        {
+            print("json decode error")
+            return
+        }
+
+        self.audioBridgeDelegate?.configuredAnswerReceived(answer: response)
     }
     
     public func tryParseJoinedEvent(data: Data)

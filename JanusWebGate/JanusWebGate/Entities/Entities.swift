@@ -30,25 +30,25 @@ public struct ResponseData: Decodable {
 }
 
 public struct JanusEventWithJSEP: Decodable {
-    let janus: String
-    let session_id : Int64
-    let transaction : String
-    let sender : Int64
-    let plugindata : StreamingPluginData
-    let jsep : JanusJSEPData
+   public let janus: String
+   public let session_id : Int64
+   public let transaction : String
+   public let sender : Int64
+   public let plugindata : StreamingPluginData
+   public let jsep : JanusJSEPData
 }
 
 public struct JanusEventWithTrickle: Codable {
-    let janus: String
-    let session_id : Int64
-    let sender : Int64
-    let candidate : JanusTrickleCandidate
+   public let janus: String
+   public let session_id : Int64
+   public let sender : Int64
+   public let candidate : JanusTrickleCandidate
 }
 
 public struct JanusTrickleLocalCandidate: Encodable {
-    let janus: String
-    let transaction : String
-    let candidate : JanusTrickleCandidate
+  public let janus: String
+  public let transaction : String
+  public let candidate : JanusTrickleCandidate
 }
 
 public struct JanusTrickleCandidate: Encodable, Decodable {
@@ -57,9 +57,9 @@ public struct JanusTrickleCandidate: Encodable, Decodable {
     public let candidate : String
 }
 
-public struct JanusJSEPData: Encodable, Decodable  {
-    let type: String
-    let sdp : String
+public struct JanusJSEPData: Codable  {
+   public let type: String
+   public let sdp : String
 }
 
 public struct JanusJSEPOUTPUTData: Codable {
@@ -82,10 +82,10 @@ public struct StreamingPluginStatus: Decodable {
 }
 
 public struct JanusMessageWithStartRequest: Encodable {
-    let janus: String
-    let transaction: String
-    let body: JanusStartRequestBody
-    let jsep: JanusJSEPData
+   public let janus: String
+   public let transaction: String
+   public let body: JanusStartRequestBody
+   public let jsep: JanusJSEPData
 }
 
 public struct JanusOUTPUTMessageWithStartRequest: Encodable {
@@ -137,3 +137,42 @@ public struct JanusAudioRoomParticipant: Codable {
     public let talking: Bool?
 }
 
+public struct JanusAudioRoomConfigureRequest: Encodable {
+    let janus: String
+    let transaction: String
+    let body: JanusAudioRoomConfigureBody
+    let jsep: JanusJSEPOUTPUTData
+}
+
+public struct JanusAudioRoomConfigureBody: Encodable {
+    let request: String
+    let muted: Bool
+}
+
+public struct JanusAudioRoomConfigureAnswer: Codable {
+   public let janus: String
+   public let transaction: String
+   public let sessionId: Int64
+   public let sender: Int64
+   public let plugindata: AudiobridgeConfiguredPluginData
+   public let jsep: JanusJSEPData
+    
+    enum CodingKeys : String, CodingKey {
+        case sessionId = "session_id"
+        case janus = "janus"
+        case transaction = "transaction"
+        case sender = "sender"
+        case plugindata = "plugindata"
+        case jsep = "jsep"
+    }
+}
+
+public struct AudiobridgeConfiguredPluginData: Codable {
+   public let plugin: String
+   public let data : JanusAudioRoomConfiguredEvent
+}
+
+public struct JanusAudioRoomConfiguredEvent: Codable {
+   public let audiobridge: String
+   public let result : String
+}

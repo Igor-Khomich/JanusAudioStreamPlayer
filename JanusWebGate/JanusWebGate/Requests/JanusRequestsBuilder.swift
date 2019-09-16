@@ -128,16 +128,23 @@ extension AudioBridgePluginRequestsBuilder
     
     func createAudioRoomConfigureRequestWith(offer sdp: String, transactionId: String) -> URLRequest
     {
-        let body = "{\"request\" : \"configure\", \"muted\" : \"false\"}"
-        let jsepOffer = "{\"type\":\"offer\",\"sdp\": \"\(sdp)\"}"
-        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body), \"jsep\" : \(jsepOffer)}"
         
-        return self.POSTRequestWith(body: rBody)
+        let jsep = JanusJSEPOUTPUTData(type: "offer", sdp: sdp)
+        let body = JanusAudioRoomConfigureBody(request: "configure", muted: false)
+        let mess = JanusAudioRoomConfigureRequest(janus: "message", transaction: "\(transactionId)", body: body, jsep: jsep)
+        
+        let data = try? JSONEncoder().encode(mess)
+        
+        print("!!!!!START createAudioRoomConfigureRequestWith REQUEST : \(String(data: data!, encoding: .utf8) ?? "!!!")")
+
+        return self.POSTRequestWith(body: data!, sessionId: sessionId, pluginId: pluginId)
     }
+    
+    
     
     func createJoinToAudioRoomRequestWith(transactionId: String, roomId: Int) -> URLRequest
     {
-        let body = "{\"request\" : \"join\", \"room\" : \(roomId)}"
+        let body = "{\"request\" : \"join\", \"muted\": false, \"quality\": 5, \"volume\": 100, \"room\" : \(roomId)}"
         let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
         
         return self.POSTRequestWith(body: rBody)
