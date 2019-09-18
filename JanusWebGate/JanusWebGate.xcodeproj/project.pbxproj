@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		780EB26A21AADABD00312EE1 /* JanusWebGate.h in Headers */ = {isa = PBXBuildFile; fileRef = 780EB26821AADABD00312EE1 /* JanusWebGate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		780EB27321AADAF800312EE1 /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB27021AADAF800312EE1 /* Entities.swift */; };
-		780EB27421AADAF800312EE1 /* JanusSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB27121AADAF800312EE1 /* JanusSession.swift */; };
+		780EB27421AADAF800312EE1 /* JanusBaseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB27121AADAF800312EE1 /* JanusBaseSession.swift */; };
 		7825A9B421B5C81A007D072B /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7825A9B321B5C81A007D072B /* Errors.swift */; };
-		78276FF221AAF4BD00F3D387 /* JanusRequestsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276FF121AAF4BD00F3D387 /* JanusRequestsBuilder.swift */; };
+		78276FF221AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276FF121AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift */; };
 		78276FF521AB112400F3D387 /* Utilites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276FF421AB112400F3D387 /* Utilites.swift */; };
+		7846259223329EAA003AE42F /* JanusAudioBridgeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846259123329EAA003AE42F /* JanusAudioBridgeSession.swift */; };
+		784625942332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */; };
+		784625962332A21E003AE42F /* JanusStreamingRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */; };
+		784625982332A56C003AE42F /* JanusStreamingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625972332A56C003AE42F /* JanusStreamingSession.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,10 +24,14 @@
 		780EB26821AADABD00312EE1 /* JanusWebGate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JanusWebGate.h; sourceTree = "<group>"; };
 		780EB26921AADABD00312EE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		780EB27021AADAF800312EE1 /* Entities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
-		780EB27121AADAF800312EE1 /* JanusSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JanusSession.swift; sourceTree = "<group>"; };
+		780EB27121AADAF800312EE1 /* JanusBaseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JanusBaseSession.swift; sourceTree = "<group>"; };
 		7825A9B321B5C81A007D072B /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		78276FF121AAF4BD00F3D387 /* JanusRequestsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusRequestsBuilder.swift; sourceTree = "<group>"; };
+		78276FF121AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusBaseRequestsBuilder.swift; sourceTree = "<group>"; };
 		78276FF421AB112400F3D387 /* Utilites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilites.swift; sourceTree = "<group>"; };
+		7846259123329EAA003AE42F /* JanusAudioBridgeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusAudioBridgeSession.swift; sourceTree = "<group>"; };
+		784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusAudioBridgeRequestBuilder.swift; sourceTree = "<group>"; };
+		784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusStreamingRequestBuilder.swift; sourceTree = "<group>"; };
+		784625972332A56C003AE42F /* JanusStreamingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusStreamingSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +67,7 @@
 				78276FF321AB111400F3D387 /* Helpers */,
 				78276FF021AAF49200F3D387 /* Requests */,
 				78276FEF21AAF43800F3D387 /* Entities */,
-				780EB27121AADAF800312EE1 /* JanusSession.swift */,
+				7846259023329E80003AE42F /* Session */,
 				780EB26821AADABD00312EE1 /* JanusWebGate.h */,
 				780EB26921AADABD00312EE1 /* Info.plist */,
 			);
@@ -77,7 +85,9 @@
 		78276FF021AAF49200F3D387 /* Requests */ = {
 			isa = PBXGroup;
 			children = (
-				78276FF121AAF4BD00F3D387 /* JanusRequestsBuilder.swift */,
+				78276FF121AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift */,
+				784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */,
+				784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -89,6 +99,16 @@
 				7825A9B321B5C81A007D072B /* Errors.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		7846259023329E80003AE42F /* Session */ = {
+			isa = PBXGroup;
+			children = (
+				780EB27121AADAF800312EE1 /* JanusBaseSession.swift */,
+				7846259123329EAA003AE42F /* JanusAudioBridgeSession.swift */,
+				784625972332A56C003AE42F /* JanusStreamingSession.swift */,
+			);
+			path = Session;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -170,11 +190,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				784625962332A21E003AE42F /* JanusStreamingRequestBuilder.swift in Sources */,
+				7846259223329EAA003AE42F /* JanusAudioBridgeSession.swift in Sources */,
 				78276FF521AB112400F3D387 /* Utilites.swift in Sources */,
 				7825A9B421B5C81A007D072B /* Errors.swift in Sources */,
-				78276FF221AAF4BD00F3D387 /* JanusRequestsBuilder.swift in Sources */,
-				780EB27421AADAF800312EE1 /* JanusSession.swift in Sources */,
+				784625982332A56C003AE42F /* JanusStreamingSession.swift in Sources */,
+				78276FF221AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift in Sources */,
+				780EB27421AADAF800312EE1 /* JanusBaseSession.swift in Sources */,
 				780EB27321AADAF800312EE1 /* Entities.swift in Sources */,
+				784625942332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
