@@ -9,7 +9,7 @@ class AudioBridgeViewController: BaseWebRtcReadyViewController {
     
     private var isPlaying = false
     @IBOutlet weak var roomIdTextField: UITextField!
-    
+    @IBOutlet weak var mutedSwitch: UISwitch! 
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,8 +21,15 @@ class AudioBridgeViewController: BaseWebRtcReadyViewController {
     }
 
     @IBAction func joinButtonTouched(_ sender: Any) {
-        
         self.joinAudioRoom()
+    }
+    
+    @IBAction func leaveRoomButtonTouched(_ sender: Any) {
+        self.sendLeaveRoom()
+    }
+    
+    @IBAction func muteStateChanged(_ sender: UISwitch) {
+        self.sendChangeUserData()
     }
     
     func generateLocalSdpOffer(completion: @escaping (String) -> ())
@@ -55,10 +62,28 @@ class AudioBridgeViewController: BaseWebRtcReadyViewController {
     
     func sendJoinRoom()
     {
-        
         let roomId: Int = Int(self.roomIdTextField.text!)!
+        
         self.janusABSession.joinToAudioRoomRequest(roomId: roomId) { (error) in
             print("Watch offer finished, error: \(String(describing: error))")
+        }
+    }
+    
+    func sendLeaveRoom()
+    {
+        self.janusABSession.leaveAudioRoomRequest { (error) in
+            print("leave audio room request finished, error: \(String(describing: error))")
+        }
+    }
+    
+    func sendChangeUserData() {
+        let userConfig = AudioBridgeUserConfig(userName: "Bugaga",
+                                               muted: mutedSwitch.isOn,
+                                               volume: 70,
+                                               quality: 5 )
+               
+        self.janusABSession.sendAudioRoomChangeUserDataRequestWith(userConfig: userConfig) { (error) in
+            print("sendAudioRoomChangeUserDataRequestWith was sent with error: \(String(describing:error?.localizedDescription))")
         }
     }
 }
@@ -68,12 +93,20 @@ extension AudioBridgeViewController: AudioBridgeDelegate {
     func joinedRoom(event: JanusAudioRoomJoinedEvent) {
         print("joined to room with participants \(event.participants)")
         
+        var isUserMuted = false
+        DispatchQueue.main.async {
+            isUserMuted = self.mutedSwitch.isOn
+        }
+        
         self.generateLocalSdpOffer { (sdp) in
             
-            self.janusABSession.sendAudioRoomConfigureRequestWith(offer: sdp) { (error) in
+            let userConfig = AudioBridgeUserConfig(userName: "Bugaga",
+                                                   muted: isUserMuted,
+                                                   volume: 70,
+                                                   quality: 5 )
+            
+            self.janusABSession.sendAudioRoomConfigureRequestWith(offer: sdp, userConfig: userConfig) { (error) in
                 print("configure request sent, error: \(String(describing: error))")
-                
-                self.webRTCClient!.unmuteAudio()
             }
         }
     }

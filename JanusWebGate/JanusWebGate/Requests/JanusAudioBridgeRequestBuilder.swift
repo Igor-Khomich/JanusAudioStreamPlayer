@@ -25,11 +25,21 @@ public class JanusAudioBridgeRequestBuilder: JanusBaseRequestsBuilder {
         return self.POSTRequestWith(body: rBody)
     }
     
-    func createAudioRoomConfigureRequestWith(offer sdp: String, transactionId: String) -> URLRequest
+    func createAudioRoomConfigureRequestWith(offer sdp: String?, userConfig: AudioBridgeUserConfig?, transactionId: String) -> URLRequest
     {
+        var jsep: JanusJSEPOUTPUTData? = nil
+        if let sdp = sdp {
+           jsep = JanusJSEPOUTPUTData(type: "offer", sdp: sdp)
+        }
         
-        let jsep = JanusJSEPOUTPUTData(type: "offer", sdp: sdp)
-        let body = JanusAudioRoomConfigureBody(request: "configure", muted: false)
+        var body: AudioBridgeUserConfig
+        
+        if let userConfig = userConfig {
+            body = userConfig
+        } else {
+            body = AudioBridgeUserConfig()
+        }
+        
         let mess = JanusAudioRoomConfigureRequest(janus: "message", transaction: "\(transactionId)", body: body, jsep: jsep)
         
         let data = try? JSONEncoder().encode(mess)
@@ -39,7 +49,13 @@ public class JanusAudioBridgeRequestBuilder: JanusBaseRequestsBuilder {
         return self.POSTRequestWith(body: data!, sessionId: sessionId, pluginId: pluginId)
     }
     
-    
+    func createLeaveAudioRoomRequestWith(transactionId: String) -> URLRequest
+    {
+        let body = "{\"request\" : \"leave\"}"
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
     
     func createJoinToAudioRoomRequestWith(transactionId: String, roomId: Int) -> URLRequest
     {

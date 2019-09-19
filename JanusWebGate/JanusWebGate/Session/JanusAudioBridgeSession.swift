@@ -53,7 +53,7 @@ public class JanusAudioBridgeSession: JanusBaseSession<JanusAudioBridgeRequestBu
         task.resume()
     }
     
-    public func sendAudioRoomConfigureRequestWith(offer sdp: String, completion: @escaping (Error?) -> ())
+    public func sendAudioRoomConfigureRequestWith(offer sdp: String, userConfig: AudioBridgeUserConfig? = nil, completion: @escaping (Error?) -> ())
     {
         print("sendAudioRoomConfigureRequestWith started")
         
@@ -63,10 +63,40 @@ public class JanusAudioBridgeSession: JanusBaseSession<JanusAudioBridgeRequestBu
             return
         }
                 
-        let request = self.requestBuilder.createAudioRoomConfigureRequestWith(offer: sdp, transactionId: self.transactionId)
+        let request = self.requestBuilder.createAudioRoomConfigureRequestWith(offer: sdp, userConfig: userConfig, transactionId: self.transactionId)
         
         self.sendSimpleRequest(request: request, completion: completion)
     }
+    
+    public func sendAudioRoomChangeUserDataRequestWith(userConfig: AudioBridgeUserConfig, completion: @escaping (Error?) -> ())
+    {
+        print("sendAudioRoomChangeUserDataRequestWith started")
+        
+        if self.sessionId == nil || self.pluginId == nil {
+            let error = JanusWebGateError.runtimeError("Create sessing with attached streaming plugin firstr")
+            completion(error)
+            return
+        }
+                
+        let request = self.requestBuilder.createAudioRoomConfigureRequestWith(offer: nil, userConfig: userConfig, transactionId: self.transactionId)
+        
+        self.sendSimpleRequest(request: request, completion: completion)
+    }
+    
+    public func leaveAudioRoomRequest(completion: @escaping (Error?) -> ())
+    {
+       print("sendAudioRoomLeaveRequestWith started")
+       
+       if self.sessionId == nil || self.pluginId == nil {
+           let error = JanusWebGateError.runtimeError("Create sessing with attached streaming plugin firstr")
+           completion(error)
+           return
+       }
+               
+       let request = self.requestBuilder.createLeaveAudioRoomRequestWith(transactionId: self.transactionId)
+       
+       self.sendSimpleRequest(request: request, completion: completion)
+   }
     
     public func joinToAudioRoomRequest(roomId: Int, completion: @escaping (Error?) -> ())
     {
@@ -159,3 +189,4 @@ extension JanusAudioBridgeEventsParsing {
          self.delegate?.joinedRoom(event: response.plugindata.data)
      }
 }
+

@@ -140,8 +140,8 @@ public struct JanusAudioRoomParticipant: Codable {
 public struct JanusAudioRoomConfigureRequest: Encodable {
     let janus: String
     let transaction: String
-    let body: JanusAudioRoomConfigureBody
-    let jsep: JanusJSEPOUTPUTData
+    let body: AudioBridgeUserConfig
+    let jsep: JanusJSEPOUTPUTData?
 }
 
 public struct JanusAudioRoomConfigureBody: Encodable {

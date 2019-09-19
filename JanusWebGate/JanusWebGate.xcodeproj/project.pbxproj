@@ -17,6 +17,7 @@
 		784625942332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */; };
 		784625962332A21E003AE42F /* JanusStreamingRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */; };
 		784625982332A56C003AE42F /* JanusStreamingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625972332A56C003AE42F /* JanusStreamingSession.swift */; };
+		78A8A5762333F7FA00387E7C /* AudioBridgeEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A8A5752333F7FA00387E7C /* AudioBridgeEntities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusAudioBridgeRequestBuilder.swift; sourceTree = "<group>"; };
 		784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusStreamingRequestBuilder.swift; sourceTree = "<group>"; };
 		784625972332A56C003AE42F /* JanusStreamingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusStreamingSession.swift; sourceTree = "<group>"; };
+		78A8A5752333F7FA00387E7C /* AudioBridgeEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBridgeEntities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				780EB27021AADAF800312EE1 /* Entities.swift */,
+				78A8A5752333F7FA00387E7C /* AudioBridgeEntities.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78A8A5762333F7FA00387E7C /* AudioBridgeEntities.swift in Sources */,
 				784625962332A21E003AE42F /* JanusStreamingRequestBuilder.swift in Sources */,
 				7846259223329EAA003AE42F /* JanusAudioBridgeSession.swift in Sources */,
 				78276FF521AB112400F3D387 /* Utilites.swift in Sources */,
