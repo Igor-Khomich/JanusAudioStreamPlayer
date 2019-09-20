@@ -10,9 +10,20 @@
 
 - streams list request
     
+# AudioBridge plugin v0.1alpha
+
+- Connect to AudioBridge plugin
+
+- Join to the room
+
+- Leave room
+
+- Mute/Unmute and other user's configs: user name, volume, quality
+
+
 ## Installation:
 
-    pod 'JanusWebGate'
+    COPY-PASTE, POD will be available later
 
 
 code example and lib sources in this repository
