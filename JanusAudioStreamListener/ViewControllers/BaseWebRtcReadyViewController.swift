@@ -12,15 +12,15 @@ import WebRTC
 
 class BaseWebRtcReadyViewController: UIViewController, WebRTCClientDelegate, UITextFieldDelegate {
     
-    internal var webRTCClient: WebRTCClient? = WebRTCClient()
+    internal var webRTCClient: WebRTCClient = WebRTCClient()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NotificationCenter.default.addObserver(forName: AVAudioSession.routeChangeNotification, object: nil, queue: nil, using: routeChange)
         
-        self.webRTCClient!.delegate = self
-
+        self.webRTCClient.delegate = self
+        
     }
     
     private func routeChange(_ n: Notification) {
@@ -43,7 +43,6 @@ class BaseWebRtcReadyViewController: UIViewController, WebRTCClientDelegate, UIT
 
     func webRTCClient(_ client: WebRTCClient, didDiscoverLocalCandidate candidate: RTCIceCandidate) {
        print("didDiscoverLocalCandidate")
-
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

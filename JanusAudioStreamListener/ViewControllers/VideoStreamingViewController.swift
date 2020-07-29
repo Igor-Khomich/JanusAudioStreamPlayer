@@ -3,22 +3,26 @@ import UIKit
 import JanusWebGate
 import WebRTC
 
-class StreamingViewcontroller: BaseWebRtcReadyViewController {
+class VideoStreamingViewController: BaseWebRtcReadyViewController {
 
     private let janusStreamingSession = JanusStreamingSession(url: Environment.instanceUrl)
 
     private var playingStream = false
     
     @IBOutlet weak var StreamIdTextField: UITextField!
+    @IBOutlet private weak var localVideoView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        StreamIdTextField.delegate = self
-        
-        janusStreamingSession.delegate = self
-        
         self.runStreamingPluginSequence()
+        
+        StreamIdTextField.delegate = self
+        janusStreamingSession.delegate = self
+
+
+        self.webRTCClient.renderRemoteVideoTo(view: self.localVideoView!)
+
     }
 
     @IBAction func StopStream(_ sender: Any) {
@@ -65,10 +69,11 @@ class StreamingViewcontroller: BaseWebRtcReadyViewController {
     {
         janusStreamingSession.createJanusSession { (result) in
             if result {
+               
                 //TODO: ready to watch
-                self.janusStreamingSession.getStreamsList(completion: { (result, error) in
-                    print("GetStreamsList: \(result!)")
-                })
+//                self.janusStreamingSession.getStreamsList(completion: { (result, error) in
+//                    print("GetStreamsList: \(result!)")
+//                })
             }
         }
     }
@@ -94,7 +99,7 @@ class StreamingViewcontroller: BaseWebRtcReadyViewController {
  
 }
 
-extension StreamingViewcontroller: JanusStreamingSessionDelegate {
+extension VideoStreamingViewController: JanusStreamingSessionDelegate {
     func startingEventReceived() {
         print("startingEventReceived")
         self.playingStream = true

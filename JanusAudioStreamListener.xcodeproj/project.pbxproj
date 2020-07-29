@@ -3,16 +3,17 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		3D1B920EE73C65151EE36277 /* Pods_JanusAudioStreamListener.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 093132B736723EB6D54A8BA2 /* Pods_JanusAudioStreamListener.framework */; };
 		780EB28521AAE66100312EE1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB28421AAE66100312EE1 /* AppDelegate.swift */; };
-		780EB28721AAE66100312EE1 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB28621AAE66100312EE1 /* TabBarViewController.swift */; };
 		780EB28A21AAE66100312EE1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 780EB28821AAE66100312EE1 /* Main.storyboard */; };
 		780EB28C21AAE66200312EE1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 780EB28B21AAE66200312EE1 /* Assets.xcassets */; };
 		780EB28F21AAE66200312EE1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 780EB28D21AAE66200312EE1 /* LaunchScreen.storyboard */; };
+		781F14E724A7C6B8006BB722 /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 788A754F232EBB2B00886B40 /* WebRTCClient.swift */; };
+		781F14E924A7C8FA006BB722 /* VideoStreamingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781F14E824A7C8FA006BB722 /* VideoStreamingViewController.swift */; };
 		7825A9AF21AB4E41007D072B /* JanusWebGate.framework in Resources */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; };
 		7825A9B821B5DF23007D072B /* JanusWebGate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; };
 		7825A9B921B5DF23007D072B /* JanusWebGate.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 780EB29621AAE76800312EE1 /* JanusWebGate.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -20,7 +21,7 @@
 		7846259C2332B873003AE42F /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846259B2332B873003AE42F /* Environment.swift */; };
 		7846259E2332BB1A003AE42F /* AudioBridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846259D2332BB1A003AE42F /* AudioBridgeViewController.swift */; };
 		784625A02332BBE2003AE42F /* BaseWebRtcReadyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7846259F2332BBE2003AE42F /* BaseWebRtcReadyViewController.swift */; };
-		788A7551232ECF2800886B40 /* WebRTCClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB29821AAE82E00312EE1 /* WebRTCClient.swift */; };
+		78DD6B1824AE05DC00BC92F7 /* VideoBridgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD6B1724AE05DC00BC92F7 /* VideoBridgeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -42,18 +43,18 @@
 		5C3366C116D9CA05FDC2B09E /* Pods-JanusAudioStreamListener.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JanusAudioStreamListener.debug.xcconfig"; path = "Pods/Target Support Files/Pods-JanusAudioStreamListener/Pods-JanusAudioStreamListener.debug.xcconfig"; sourceTree = "<group>"; };
 		780EB28121AAE66100312EE1 /* JanusAudioStreamListener.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JanusAudioStreamListener.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		780EB28421AAE66100312EE1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		780EB28621AAE66100312EE1 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		780EB28921AAE66100312EE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		780EB28B21AAE66200312EE1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		780EB28E21AAE66200312EE1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		780EB29021AAE66200312EE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		780EB29621AAE76800312EE1 /* JanusWebGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = JanusWebGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		780EB29821AAE82E00312EE1 /* WebRTCClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebRTCClient.swift; sourceTree = "<group>"; };
+		781F14E824A7C8FA006BB722 /* VideoStreamingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoStreamingViewController.swift; sourceTree = "<group>"; };
 		784625992332B839003AE42F /* StreamingViewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingViewcontroller.swift; sourceTree = "<group>"; };
 		7846259B2332B873003AE42F /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		7846259D2332BB1A003AE42F /* AudioBridgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBridgeViewController.swift; sourceTree = "<group>"; };
 		7846259F2332BBE2003AE42F /* BaseWebRtcReadyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseWebRtcReadyViewController.swift; sourceTree = "<group>"; };
-		788A754F232EBB2B00886B40 /* WebRTCClientnew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCClientnew.swift; sourceTree = "<group>"; };
+		788A754F232EBB2B00886B40 /* WebRTCClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRTCClient.swift; sourceTree = "<group>"; };
+		78DD6B1724AE05DC00BC92F7 /* VideoBridgeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoBridgeViewController.swift; sourceTree = "<group>"; };
 		D268DFE7D9E13FB2515ADBDB /* Pods-JanusAudioStreamListener.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JanusAudioStreamListener.release.xcconfig"; path = "Pods/Target Support Files/Pods-JanusAudioStreamListener/Pods-JanusAudioStreamListener.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,10 +103,8 @@
 			children = (
 				784625A12332BBEB003AE42F /* ViewControllers */,
 				7846259B2332B873003AE42F /* Environment.swift */,
-				780EB29821AAE82E00312EE1 /* WebRTCClient.swift */,
-				788A754F232EBB2B00886B40 /* WebRTCClientnew.swift */,
+				788A754F232EBB2B00886B40 /* WebRTCClient.swift */,
 				780EB28421AAE66100312EE1 /* AppDelegate.swift */,
-				780EB28621AAE66100312EE1 /* TabBarViewController.swift */,
 				780EB28821AAE66100312EE1 /* Main.storyboard */,
 				780EB28B21AAE66200312EE1 /* Assets.xcassets */,
 				780EB28D21AAE66200312EE1 /* LaunchScreen.storyboard */,
@@ -119,7 +118,9 @@
 			children = (
 				7846259F2332BBE2003AE42F /* BaseWebRtcReadyViewController.swift */,
 				784625992332B839003AE42F /* StreamingViewcontroller.swift */,
+				781F14E824A7C8FA006BB722 /* VideoStreamingViewController.swift */,
 				7846259D2332BB1A003AE42F /* AudioBridgeViewController.swift */,
+				78DD6B1724AE05DC00BC92F7 /* VideoBridgeViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -232,20 +233,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-JanusAudioStreamListener/Pods-JanusAudioStreamListener-frameworks.sh",
-				"${PODS_ROOT}/GoogleWebRTC/Frameworks/frameworks/WebRTC.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-JanusAudioStreamListener/Pods-JanusAudioStreamListener-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WebRTC.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-JanusAudioStreamListener/Pods-JanusAudioStreamListener-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-JanusAudioStreamListener/Pods-JanusAudioStreamListener-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JanusAudioStreamListener/Pods-JanusAudioStreamListener-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -255,12 +251,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				781F14E724A7C6B8006BB722 /* WebRTCClient.swift in Sources */,
+				781F14E924A7C8FA006BB722 /* VideoStreamingViewController.swift in Sources */,
 				7846259E2332BB1A003AE42F /* AudioBridgeViewController.swift in Sources */,
-				780EB28721AAE66100312EE1 /* TabBarViewController.swift in Sources */,
 				7846259A2332B839003AE42F /* StreamingViewcontroller.swift in Sources */,
 				780EB28521AAE66100312EE1 /* AppDelegate.swift in Sources */,
+				78DD6B1824AE05DC00BC92F7 /* VideoBridgeViewController.swift in Sources */,
 				784625A02332BBE2003AE42F /* BaseWebRtcReadyViewController.swift in Sources */,
-				788A7551232ECF2800886B40 /* WebRTCClient.swift in Sources */,
 				7846259C2332B873003AE42F /* Environment.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,8 +405,9 @@
 			baseConfigurationReference = 5C3366C116D9CA05FDC2B09E /* Pods-JanusAudioStreamListener.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7PCAYDAQNG;
+				DEVELOPMENT_TEAM = ZL95J7D278;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JanusAudioStreamListener/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -417,8 +415,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.igk.jwg;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uran.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -429,8 +428,9 @@
 			baseConfigurationReference = D268DFE7D9E13FB2515ADBDB /* Pods-JanusAudioStreamListener.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7PCAYDAQNG;
+				DEVELOPMENT_TEAM = ZL95J7D278;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = JanusAudioStreamListener/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -438,8 +438,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.igk.jwg;
+				PRODUCT_BUNDLE_IDENTIFIER = com.uran.test;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -3,13 +3,13 @@ import UIKit
 import JanusWebGate
 import WebRTC
 
-class AudioBridgeViewController: BaseWebRtcReadyViewController {
+class VideoBridgeViewController: BaseWebRtcReadyViewController {
 
     private let janusABSession = JanusAudioBridgeSession(url: Environment.instanceUrl)
     
     private var isPlaying = false
     @IBOutlet weak var roomIdTextField: UITextField!
-    @IBOutlet weak var mutedSwitch: UISwitch! 
+    @IBOutlet weak var mutedSwitch: UISwitch!
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -88,7 +88,7 @@ class AudioBridgeViewController: BaseWebRtcReadyViewController {
     }
 }
 
-extension AudioBridgeViewController: AudioBridgeDelegate {
+extension VideoBridgeViewController: VideoBridgeDelegate {
     
     func joinedRoom(event: JanusAudioRoomJoinedEvent) {
         print("joined to room with participants \(event.participants)")

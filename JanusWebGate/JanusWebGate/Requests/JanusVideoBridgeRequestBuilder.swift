@@ -1,16 +1,16 @@
 
 import Foundation
 
-public class JanusAudioBridgeRequestBuilder: JanusBaseRequestsBuilder {
+public class JanusVideoBridgeRequestBuilder: JanusBaseRequestsBuilder {
     
-    func attachToAudioBridgePluginRequestWith(sessionId: Int64, transactionId: String) -> URLRequest
+    func attachToVideoBridgePluginRequestWith(sessionId: Int64, transactionId: String) -> URLRequest
     {
-        let body = "{\"janus\":\"attach\",\"plugin\":\"janus.plugin.audiobridge\",\"transaction\":\"\(transactionId)\"}"
+        let body = "{\"janus\":\"attach\",\"plugin\":\"janus.plugin.videoroom\",\"transaction\":\"\(transactionId)\"}"
         
         return self.POSTRequestWith(body: body)
     }
     
-    func createGetAudioRoomsListRequestWith(transactionId: String) -> URLRequest
+    func createGetVideoRoomsListRequestWith(transactionId: String) -> URLRequest
     {
         let body = "{\"request\" : \"list\"}";
         let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
@@ -18,7 +18,7 @@ public class JanusAudioBridgeRequestBuilder: JanusBaseRequestsBuilder {
         return self.POSTRequestWith(body: rBody)
     }
     
-    func createAudioRoomConfigureRequestWith(offer sdp: String?, userConfig: AudioBridgeUserConfig?, transactionId: String) -> URLRequest
+    func createVideoRoomConfigureRequestWith(offer sdp: String?, userConfig: AudioBridgeUserConfig?, transactionId: String) -> URLRequest
     {
         var jsep: JanusJSEPOUTPUTData? = nil
         if let sdp = sdp {

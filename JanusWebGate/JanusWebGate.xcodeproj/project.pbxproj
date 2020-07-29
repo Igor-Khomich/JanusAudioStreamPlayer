@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		780EB26A21AADABD00312EE1 /* JanusWebGate.h in Headers */ = {isa = PBXBuildFile; fileRef = 780EB26821AADABD00312EE1 /* JanusWebGate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		780EB27321AADAF800312EE1 /* Entities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB27021AADAF800312EE1 /* Entities.swift */; };
+		780EB27321AADAF800312EE1 /* StreamingEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB27021AADAF800312EE1 /* StreamingEntities.swift */; };
 		780EB27421AADAF800312EE1 /* JanusBaseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 780EB27121AADAF800312EE1 /* JanusBaseSession.swift */; };
+		78123FF224B5F37C00594E8D /* CommonEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78123FF124B5F37C00594E8D /* CommonEntities.swift */; };
+		78123FF424B5F40700594E8D /* AudioRoomEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78123FF324B5F40700594E8D /* AudioRoomEntities.swift */; };
+		78123FF624B5F47400594E8D /* VideoRoomEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78123FF524B5F47400594E8D /* VideoRoomEntities.swift */; };
 		7825A9B421B5C81A007D072B /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7825A9B321B5C81A007D072B /* Errors.swift */; };
 		78276FF221AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276FF121AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift */; };
 		78276FF521AB112400F3D387 /* Utilites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78276FF421AB112400F3D387 /* Utilites.swift */; };
@@ -17,15 +20,19 @@
 		784625942332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */; };
 		784625962332A21E003AE42F /* JanusStreamingRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */; };
 		784625982332A56C003AE42F /* JanusStreamingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625972332A56C003AE42F /* JanusStreamingSession.swift */; };
-		78A8A5762333F7FA00387E7C /* AudioBridgeEntities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78A8A5752333F7FA00387E7C /* AudioBridgeEntities.swift */; };
+		78DD6B1A24AE0AD400BC92F7 /* JanusVideoBridgeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD6B1924AE0AD400BC92F7 /* JanusVideoBridgeSession.swift */; };
+		78DD6B1C24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD6B1B24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		780EB26521AADABD00312EE1 /* JanusWebGate.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = JanusWebGate.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		780EB26821AADABD00312EE1 /* JanusWebGate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JanusWebGate.h; sourceTree = "<group>"; };
 		780EB26921AADABD00312EE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		780EB27021AADAF800312EE1 /* Entities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Entities.swift; sourceTree = "<group>"; };
+		780EB27021AADAF800312EE1 /* StreamingEntities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreamingEntities.swift; sourceTree = "<group>"; };
 		780EB27121AADAF800312EE1 /* JanusBaseSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JanusBaseSession.swift; sourceTree = "<group>"; };
+		78123FF124B5F37C00594E8D /* CommonEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonEntities.swift; sourceTree = "<group>"; };
+		78123FF324B5F40700594E8D /* AudioRoomEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRoomEntities.swift; sourceTree = "<group>"; };
+		78123FF524B5F47400594E8D /* VideoRoomEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRoomEntities.swift; sourceTree = "<group>"; };
 		7825A9B321B5C81A007D072B /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		78276FF121AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusBaseRequestsBuilder.swift; sourceTree = "<group>"; };
 		78276FF421AB112400F3D387 /* Utilites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilites.swift; sourceTree = "<group>"; };
@@ -33,7 +40,8 @@
 		784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusAudioBridgeRequestBuilder.swift; sourceTree = "<group>"; };
 		784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusStreamingRequestBuilder.swift; sourceTree = "<group>"; };
 		784625972332A56C003AE42F /* JanusStreamingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusStreamingSession.swift; sourceTree = "<group>"; };
-		78A8A5752333F7FA00387E7C /* AudioBridgeEntities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioBridgeEntities.swift; sourceTree = "<group>"; };
+		78DD6B1924AE0AD400BC92F7 /* JanusVideoBridgeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusVideoBridgeSession.swift; sourceTree = "<group>"; };
+		78DD6B1B24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusVideoBridgeRequestBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,8 +87,10 @@
 		78276FEF21AAF43800F3D387 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				780EB27021AADAF800312EE1 /* Entities.swift */,
-				78A8A5752333F7FA00387E7C /* AudioBridgeEntities.swift */,
+				780EB27021AADAF800312EE1 /* StreamingEntities.swift */,
+				78123FF124B5F37C00594E8D /* CommonEntities.swift */,
+				78123FF324B5F40700594E8D /* AudioRoomEntities.swift */,
+				78123FF524B5F47400594E8D /* VideoRoomEntities.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -89,8 +99,9 @@
 			isa = PBXGroup;
 			children = (
 				78276FF121AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift */,
-				784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */,
 				784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */,
+				784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */,
+				78DD6B1B24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -108,8 +119,9 @@
 			isa = PBXGroup;
 			children = (
 				780EB27121AADAF800312EE1 /* JanusBaseSession.swift */,
-				7846259123329EAA003AE42F /* JanusAudioBridgeSession.swift */,
 				784625972332A56C003AE42F /* JanusStreamingSession.swift */,
+				7846259123329EAA003AE42F /* JanusAudioBridgeSession.swift */,
+				78DD6B1924AE0AD400BC92F7 /* JanusVideoBridgeSession.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -193,15 +205,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78A8A5762333F7FA00387E7C /* AudioBridgeEntities.swift in Sources */,
+				78123FF424B5F40700594E8D /* AudioRoomEntities.swift in Sources */,
+				78DD6B1A24AE0AD400BC92F7 /* JanusVideoBridgeSession.swift in Sources */,
 				784625962332A21E003AE42F /* JanusStreamingRequestBuilder.swift in Sources */,
 				7846259223329EAA003AE42F /* JanusAudioBridgeSession.swift in Sources */,
 				78276FF521AB112400F3D387 /* Utilites.swift in Sources */,
 				7825A9B421B5C81A007D072B /* Errors.swift in Sources */,
 				784625982332A56C003AE42F /* JanusStreamingSession.swift in Sources */,
 				78276FF221AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift in Sources */,
+				78DD6B1C24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift in Sources */,
 				780EB27421AADAF800312EE1 /* JanusBaseSession.swift in Sources */,
-				780EB27321AADAF800312EE1 /* Entities.swift in Sources */,
+				780EB27321AADAF800312EE1 /* StreamingEntities.swift in Sources */,
+				78123FF224B5F37C00594E8D /* CommonEntities.swift in Sources */,
+				78123FF624B5F47400594E8D /* VideoRoomEntities.swift in Sources */,
 				784625942332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -335,9 +351,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = ZL95J7D278;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -352,6 +370,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = home.JanusWebGate;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -363,9 +383,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = ZL95J7D278;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -380,6 +402,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = home.JanusWebGate;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
