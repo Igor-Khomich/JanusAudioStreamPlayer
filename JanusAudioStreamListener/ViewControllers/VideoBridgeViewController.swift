@@ -15,7 +15,7 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
 
         roomIdTextField.delegate = self
         
-        janusABSession.delegate = self
+       // janusABSession.delegate = self
         
         self.runAudioBridgePluginSequence()
     }
@@ -88,36 +88,36 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
     }
 }
 
-extension VideoBridgeViewController: VideoBridgeDelegate {
-    
-    func joinedRoom(event: JanusAudioRoomJoinedEvent) {
-        print("joined to room with participants \(event.participants)")
-        
-        var isUserMuted = false
-        DispatchQueue.main.async {
-            isUserMuted = self.mutedSwitch.isOn
-        }
-        
-        self.generateLocalSdpOffer { (sdp) in
-            
-            let userConfig = AudioBridgeUserConfig(userName: "Bugaga",
-                                                   muted: isUserMuted,
-                                                   volume: 70,
-                                                   quality: 5 )
-            
-            self.janusABSession.sendAudioRoomConfigureRequestWith(offer: sdp, userConfig: userConfig) { (error) in
-                print("configure request sent, error: \(String(describing: error))")
-            }
-        }
-    }
-    
-    func configuredAnswerReceived(answer: JanusAudioRoomConfigureAnswer) {
-        let rtc = RTCSessionDescription(type: .prAnswer, sdp: answer.jsep.sdp)
-        self.webRTCClient.set(remoteSdp: rtc) { (error) in
-            print("configure answer sent to WebRTC with error: \(String(describing: error))")
-        }
-    }
-
-}
-
-
+//extension VideoBridgeViewController: VideoBridgeDelegate {
+//    
+//    func joinedRoom(event: JanusAudioRoomJoinedEvent) {
+//        print("joined to room with participants \(event.participants)")
+//        
+//        var isUserMuted = false
+//        DispatchQueue.main.async {
+//            isUserMuted = self.mutedSwitch.isOn
+//        }
+//        
+//        self.generateLocalSdpOffer { (sdp) in
+//            
+//            let userConfig = AudioBridgeUserConfig(userName: "Bugaga",
+//                                                   muted: isUserMuted,
+//                                                   volume: 70,
+//                                                   quality: 5 )
+//            
+//            self.janusABSession.sendAudioRoomConfigureRequestWith(offer: sdp, userConfig: userConfig) { (error) in
+//                print("configure request sent, error: \(String(describing: error))")
+//            }
+//        }
+//    }
+//    
+//    func configuredAnswerReceived(answer: JanusAudioRoomConfigureAnswer) {
+//        let rtc = RTCSessionDescription(type: .prAnswer, sdp: answer.jsep.sdp)
+//        self.webRTCClient.set(remoteSdp: rtc) { (error) in
+//            print("configure answer sent to WebRTC with error: \(String(describing: error))")
+//        }
+//    }
+//
+//}
+//
+//
