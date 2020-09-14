@@ -5,31 +5,32 @@ import WebRTC
 
 class VideoBridgeViewController: BaseWebRtcReadyViewController {
 
-    private let janusABSession = JanusAudioBridgeSession(url: Environment.instanceUrl)
+    private let janusVBSession = JanusVideoRoomSession(url: Environment.instanceUrl)
     
     private var isPlaying = false
     @IBOutlet weak var roomIdTextField: UITextField!
-    @IBOutlet weak var mutedSwitch: UISwitch!
+    @IBOutlet weak var feedIdTextField: UITextField!
+    
+    @IBOutlet private weak var localVideoView: UIView?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         roomIdTextField.delegate = self
         
-       // janusABSession.delegate = self
+        janusVBSession.delegate = self
         
         self.runAudioBridgePluginSequence()
+        
+        self.webRTCClient.renderRemoteVideoTo(view: self.localVideoView!)
     }
 
     @IBAction func joinButtonTouched(_ sender: Any) {
-        self.joinAudioRoom()
+        self.joinVideoRoom()
     }
     
     @IBAction func leaveRoomButtonTouched(_ sender: Any) {
         self.sendLeaveRoom()
-    }
-    
-    @IBAction func muteStateChanged(_ sender: UISwitch) {
-        self.sendChangeUserData()
     }
     
     func generateLocalSdpOffer(completion: @escaping (String) -> ())
@@ -41,16 +42,21 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
     
     func runAudioBridgePluginSequence()
     {
-        janusABSession.createJanusSession { (result) in
+        janusVBSession.createJanusSession { (result) in
             if result {
-                self.janusABSession.getAudioRoomsList(completion: { (result, error) in
+                self.janusVBSession.getVideoRoomsList(completion: { (result, error) in
                     print("GetStreamsList: \(String(describing: result))")
                 })
+                
+                let roomId: Int = 1234 //TODO: get correct room id
+                self.janusVBSession.getVideoRoomsParticipantsList(roomId: roomId) { (result, error) in
+                    print("getVideoRoomsParticipantsList: \(String(describing: result))")
+                }
             }
         }
     }
     
-    func joinAudioRoom()
+    func joinVideoRoom()
     {
         if (!isPlaying) {
             //request new stream
@@ -63,61 +69,47 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
     func sendJoinRoom()
     {
         let roomId: Int = Int(self.roomIdTextField.text!)!
+        let feedId: Int = Int(self.feedIdTextField.text!)!
         
-        self.janusABSession.joinToAudioRoomRequest(roomId: roomId) { (error) in
+        self.janusVBSession.joinToVideoRoomRequest(roomId: roomId, feedId: feedId) { (error) in
             print("Watch offer finished, error: \(String(describing: error))")
         }
     }
     
     func sendLeaveRoom()
     {
-        self.janusABSession.leaveAudioRoomRequest { (error) in
+        self.janusVBSession.leaveVideoRoomRequest { (error) in
             print("leave audio room request finished, error: \(String(describing: error))")
         }
     }
-    
-    func sendChangeUserData() {
-        let userConfig = AudioBridgeUserConfig(userName: "Bugaga",
-                                               muted: mutedSwitch.isOn,
-                                               volume: 70,
-                                               quality: 5 )
-               
-        self.janusABSession.sendAudioRoomChangeUserDataRequestWith(userConfig: userConfig) { (error) in
-            print("sendAudioRoomChangeUserDataRequestWith was sent with error: \(String(describing:error?.localizedDescription))")
+
+    func createLocalSdp()
+    {
+        self.webRTCClient.answer { (localSdp) in
+            self.janusVBSession.sendStartCommand(sdp: localSdp.sdp, completion: { (error) in
+                 print("Start request finished, error: \(String(describing: error))")
+            })
         }
     }
+} 
+
+extension VideoBridgeViewController: VideoBridgeDelegate {
+    
+    func joinedRoom(event: JanusVideoRoomJoinedEvent) {
+        print("joined to room with publishers \(String(describing: event.publishers))")
+        print("joined to room with attendees \(String(describing: event.attendees))")
+    }
+    
+    func configuredAnswerReceived(answer: JanusVideoRoomConfigureAnswer) {
+        let sdp = RTCSessionDescription(type: .offer, sdp: answer.jsep.sdp)
+        self.webRTCClient.set(remoteSdp: sdp) { (error) in
+            print("Set remoteSdp \(String(describing: error))")
+            if (error == nil){
+                self.createLocalSdp()
+            }
+        }
+    }
+
 }
 
-//extension VideoBridgeViewController: VideoBridgeDelegate {
-//    
-//    func joinedRoom(event: JanusAudioRoomJoinedEvent) {
-//        print("joined to room with participants \(event.participants)")
-//        
-//        var isUserMuted = false
-//        DispatchQueue.main.async {
-//            isUserMuted = self.mutedSwitch.isOn
-//        }
-//        
-//        self.generateLocalSdpOffer { (sdp) in
-//            
-//            let userConfig = AudioBridgeUserConfig(userName: "Bugaga",
-//                                                   muted: isUserMuted,
-//                                                   volume: 70,
-//                                                   quality: 5 )
-//            
-//            self.janusABSession.sendAudioRoomConfigureRequestWith(offer: sdp, userConfig: userConfig) { (error) in
-//                print("configure request sent, error: \(String(describing: error))")
-//            }
-//        }
-//    }
-//    
-//    func configuredAnswerReceived(answer: JanusAudioRoomConfigureAnswer) {
-//        let rtc = RTCSessionDescription(type: .prAnswer, sdp: answer.jsep.sdp)
-//        self.webRTCClient.set(remoteSdp: rtc) { (error) in
-//            print("configure answer sent to WebRTC with error: \(String(describing: error))")
-//        }
-//    }
-//
-//}
-//
-//
+

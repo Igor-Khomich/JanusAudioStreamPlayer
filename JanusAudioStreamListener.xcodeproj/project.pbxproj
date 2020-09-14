@@ -118,8 +118,8 @@
 			children = (
 				7846259F2332BBE2003AE42F /* BaseWebRtcReadyViewController.swift */,
 				784625992332B839003AE42F /* StreamingViewcontroller.swift */,
-				781F14E824A7C8FA006BB722 /* VideoStreamingViewController.swift */,
 				7846259D2332BB1A003AE42F /* AudioBridgeViewController.swift */,
+				781F14E824A7C8FA006BB722 /* VideoStreamingViewController.swift */,
 				78DD6B1724AE05DC00BC92F7 /* VideoBridgeViewController.swift */,
 			);
 			path = ViewControllers;

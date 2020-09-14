@@ -3,6 +3,19 @@ import Foundation
 
 public class JanusVideoRoomRequestBuilder: JanusBaseRequestsBuilder {
     
+    func createStartCommandRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String, sdp: String) -> URLRequest
+    {
+        let jsep = JanusJSEPOUTPUTData(type: "answer", sdp: sdp)
+        let body = JanusStartRequestBody(request: "start")
+        let mess = JanusOUTPUTMessageWithStartRequest(janus: "message", transaction: "\(transactionId)", body: body, jsep: jsep)
+        
+        let data = try? JSONEncoder().encode(mess)
+        
+        print("!!!!!START REQUEST : \(String(data: data!, encoding: .utf8) ?? "!!!")")
+
+        return self.POSTRequestWith(body: data!, sessionId: sessionId, pluginId: streamPluginId)
+    }
+    
     func attachToVideoBridgePluginRequestWith(sessionId: Int64, transactionId: String) -> URLRequest
     {
         let body = "{\"janus\":\"attach\",\"plugin\":\"janus.plugin.videoroom\",\"transaction\":\"\(transactionId)\"}"
@@ -13,6 +26,14 @@ public class JanusVideoRoomRequestBuilder: JanusBaseRequestsBuilder {
     func createGetVideoRoomsListRequestWith(transactionId: String) -> URLRequest
     {
         let body = "{\"request\" : \"list\"}";
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+    
+    func createGetVideoRoomParticipantsListRequestWith(transactionId: String, roomId: Int) -> URLRequest
+    {
+        let body = "{\"request\" : \"listparticipants\", \"room\" : \(roomId)}";
         let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
         
         return self.POSTRequestWith(body: rBody)
@@ -50,13 +71,12 @@ public class JanusVideoRoomRequestBuilder: JanusBaseRequestsBuilder {
         return self.POSTRequestWith(body: rBody)
     }
     
-    func createJoinToVideoRoomRequestWith(transactionId: String, roomId: Int) -> URLRequest
+    func createJoinToVideoRoomRequestWith(transactionId: String, roomId: Int, feedId: Int) -> URLRequest
     {
-        let body = "{\"request\" : \"join\", \"ptype\": \"publisher\", \"room\" : \(roomId)}"
+        let body = "{\"request\" : \"join\", \"ptype\": \"subscriber\", \"room\" : \(roomId), \"feed\" : \(feedId)}"
         let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
         
         return self.POSTRequestWith(body: rBody)
     }
-
 
 }

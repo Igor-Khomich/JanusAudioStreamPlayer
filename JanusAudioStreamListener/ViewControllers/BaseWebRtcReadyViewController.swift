@@ -36,7 +36,6 @@ class BaseWebRtcReadyViewController: UIViewController, WebRTCClientDelegate, UIT
     func webRTCClient(_ client: WebRTCClient, didChangeConnectionState state: RTCIceConnectionState) {
         print("webRTCClient didChangeConnectionState!!!")
     }
-    
     func webRTCClient(_ client: WebRTCClient, didReceiveData data: Data) {
         //IDLE
     }

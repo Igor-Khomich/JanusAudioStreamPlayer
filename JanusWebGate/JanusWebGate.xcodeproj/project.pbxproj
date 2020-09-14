@@ -20,8 +20,8 @@
 		784625942332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */; };
 		784625962332A21E003AE42F /* JanusStreamingRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */; };
 		784625982332A56C003AE42F /* JanusStreamingSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784625972332A56C003AE42F /* JanusStreamingSession.swift */; };
-		78DD6B1A24AE0AD400BC92F7 /* JanusVideoBridgeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD6B1924AE0AD400BC92F7 /* JanusVideoBridgeSession.swift */; };
-		78DD6B1C24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD6B1B24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift */; };
+		78DD6B1A24AE0AD400BC92F7 /* JanusVideoRoomSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD6B1924AE0AD400BC92F7 /* JanusVideoRoomSession.swift */; };
+		78DD6B1C24AE0B3100BC92F7 /* JanusVideoRoomRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78DD6B1B24AE0B3100BC92F7 /* JanusVideoRoomRequestBuilder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,8 +40,8 @@
 		784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusAudioBridgeRequestBuilder.swift; sourceTree = "<group>"; };
 		784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusStreamingRequestBuilder.swift; sourceTree = "<group>"; };
 		784625972332A56C003AE42F /* JanusStreamingSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusStreamingSession.swift; sourceTree = "<group>"; };
-		78DD6B1924AE0AD400BC92F7 /* JanusVideoBridgeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusVideoBridgeSession.swift; sourceTree = "<group>"; };
-		78DD6B1B24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusVideoBridgeRequestBuilder.swift; sourceTree = "<group>"; };
+		78DD6B1924AE0AD400BC92F7 /* JanusVideoRoomSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusVideoRoomSession.swift; sourceTree = "<group>"; };
+		78DD6B1B24AE0B3100BC92F7 /* JanusVideoRoomRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JanusVideoRoomRequestBuilder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,7 +101,7 @@
 				78276FF121AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift */,
 				784625952332A21E003AE42F /* JanusStreamingRequestBuilder.swift */,
 				784625932332A18A003AE42F /* JanusAudioBridgeRequestBuilder.swift */,
-				78DD6B1B24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift */,
+				78DD6B1B24AE0B3100BC92F7 /* JanusVideoRoomRequestBuilder.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -121,7 +121,7 @@
 				780EB27121AADAF800312EE1 /* JanusBaseSession.swift */,
 				784625972332A56C003AE42F /* JanusStreamingSession.swift */,
 				7846259123329EAA003AE42F /* JanusAudioBridgeSession.swift */,
-				78DD6B1924AE0AD400BC92F7 /* JanusVideoBridgeSession.swift */,
+				78DD6B1924AE0AD400BC92F7 /* JanusVideoRoomSession.swift */,
 			);
 			path = Session;
 			sourceTree = "<group>";
@@ -206,14 +206,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				78123FF424B5F40700594E8D /* AudioRoomEntities.swift in Sources */,
-				78DD6B1A24AE0AD400BC92F7 /* JanusVideoBridgeSession.swift in Sources */,
+				78DD6B1A24AE0AD400BC92F7 /* JanusVideoRoomSession.swift in Sources */,
 				784625962332A21E003AE42F /* JanusStreamingRequestBuilder.swift in Sources */,
 				7846259223329EAA003AE42F /* JanusAudioBridgeSession.swift in Sources */,
 				78276FF521AB112400F3D387 /* Utilites.swift in Sources */,
 				7825A9B421B5C81A007D072B /* Errors.swift in Sources */,
 				784625982332A56C003AE42F /* JanusStreamingSession.swift in Sources */,
 				78276FF221AAF4BD00F3D387 /* JanusBaseRequestsBuilder.swift in Sources */,
-				78DD6B1C24AE0B3100BC92F7 /* JanusVideoBridgeRequestBuilder.swift in Sources */,
+				78DD6B1C24AE0B3100BC92F7 /* JanusVideoRoomRequestBuilder.swift in Sources */,
 				780EB27421AADAF800312EE1 /* JanusBaseSession.swift in Sources */,
 				780EB27321AADAF800312EE1 /* StreamingEntities.swift in Sources */,
 				78123FF224B5F37C00594E8D /* CommonEntities.swift in Sources */,

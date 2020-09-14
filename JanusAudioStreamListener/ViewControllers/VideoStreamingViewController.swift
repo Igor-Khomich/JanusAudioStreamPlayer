@@ -100,6 +100,7 @@ class VideoStreamingViewController: BaseWebRtcReadyViewController {
 }
 
 extension VideoStreamingViewController: JanusStreamingSessionDelegate {
+    
     func startingEventReceived() {
         print("startingEventReceived")
         self.playingStream = true
