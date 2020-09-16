@@ -6,6 +6,8 @@
 
 - Play audio stream using GoogleWebRTC library . 
 
+- Play video stream
+
 - play/stop/pause requests
 
 - streams list request
@@ -19,6 +21,16 @@
 - Leave room
 
 - Mute/Unmute and other user's configs: user name, volume, quality
+
+# VideoRoom plugin v0.1alpha
+
+- Connect to VideoRoom plugin
+
+- Getting Rooms list / Streamers List
+
+- Connest to the video stream
+
+- Leave room
 
 
 ## Installation:
