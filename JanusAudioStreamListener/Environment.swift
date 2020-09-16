@@ -9,6 +9,5 @@
 import Foundation
 
 class Environment {
-    static let instanceUrl: String = "https://streaming.devserver.app:8089/janus/"
-    //static let instanceUrl: String = "https://janus.conf.meetecho.com/janus/"
+    static let instanceUrl: String = "https://janus.conf.meetecho.com/janus/"
 }
