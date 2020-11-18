@@ -84,6 +84,14 @@ public class JanusVideoRoomRequestBuilder: JanusBaseRequestsBuilder {
         return self.POSTRequestWith(body: rBody)
     }
     
+    func createJoinToVideoRoomForPublishRequestWith(transactionId: String, roomId: Int) -> URLRequest
+    {
+        let body = "{\"request\" : \"join\", \"ptype\": \"publisher\", \"room\" : \(roomId)}"
+        let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
+        
+        return self.POSTRequestWith(body: rBody)
+    }
+    
     func createVideoRoomPublishRequestWith(offer sdp: String, name displayName: String, transactionId: String) -> URLRequest
     {
         let jsep: JanusJSEPOUTPUTData? = JanusJSEPOUTPUTData(type: "offer", sdp: sdp)

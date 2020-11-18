@@ -104,7 +104,22 @@ public class JanusVideoRoomSession: JanusBaseSession<JanusVideoRoomRequestBuilde
             return
         }
         
-        let request = self.requestBuilder.createJoinToVideoRoomRequestWith(transactionId: self.transactionId, roomId: roomId, feedId: feedId, role: .publisher)
+        let request = self.requestBuilder.createJoinToVideoRoomRequestWith(transactionId: self.transactionId, roomId: roomId, feedId: feedId, role: .subscriber)
+        
+        self.sendSimpleRequest(request: request, completion: completion)
+    }
+    
+    public func joinToVideoRoomForPublishRequest(roomId: Int, completion: @escaping (Error?) -> ())
+    {
+        print("joinToVideoRoomRequest started")
+        
+        if self.sessionId == nil || self.pluginId == nil {
+            let error = JanusWebGateError.runtimeError("Create sessing with attached streaming plugin firstr")
+            completion(error)
+            return
+        }
+        
+        let request = self.requestBuilder.createJoinToVideoRoomForPublishRequestWith(transactionId: self.transactionId, roomId: roomId)
         
         self.sendSimpleRequest(request: request, completion: completion)
     }

@@ -49,17 +49,21 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
     
     func runAudioBridgePluginSequence()
     {
-        janusVBSession.createJanusSession { (result) in
+        janusVBSession.createJanusSession {[unowned self] (result) in
             if result {
                 self.janusVBSession.getVideoRoomsList(completion: { (result, error) in
                     print("GetStreamsList: \(String(describing: result))")
                 })
                 
-                let roomId: Int = 1234 //TODO: get correct room id
-                self.janusVBSession.getVideoRoomsParticipantsList(roomId: roomId) { (result, error) in
-                    print("getVideoRoomsParticipantsList: \(String(describing: result))")
-                }
+                self.getParticipantsList()
             }
+        }
+    }
+    
+    func getParticipantsList() {
+        let roomId: Int = 1234 //TODO: get correct room id
+        self.janusVBSession.getVideoRoomsParticipantsList(roomId: roomId) { (result, error) in
+            print("getVideoRoomsParticipantsList: \(String(describing: result))")
         }
     }
     
@@ -76,17 +80,25 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
     func sendJoinRoom()
     {
         let roomId: Int = Int(self.roomIdTextField.text!)!
-        let feedId: Int = Int(self.feedIdTextField.text!)!
         
-        self.janusVBSession.joinToVideoRoomRequest(roomId: roomId, feedId: feedId) { [unowned self] (error) in
+        
+        //as subscriber!!!!
+//        let feedId: Int = Int(self.feedIdTextField.text!)!
+//        self.janusVBSession.joinToVideoRoomRequest(roomId: roomId, feedId: feedId) { (error) in
+//            print("Watch offer finished, error: \(String(describing: error))")
+//        }
+        
+        //as publisher
+        self.janusVBSession.joinToVideoRoomForPublishRequest(roomId: roomId) { [unowned self] (error) in
             print("Watch offer finished, error: \(String(describing: error))")
             self.webRTCClient.offer { (sdp) in
                 self.janusVBSession.startPublishingToVideoRoomRequest(displayname: "Newbie", sdpOffer: sdp.sdp) { (error) in
                     print("wideo publishing started, error: \(String(describing: error))")
+                    self.getParticipantsList()
                 }
             }
-            
         }
+        
     }
     
     func sendLeaveRoom()
@@ -114,7 +126,13 @@ extension VideoBridgeViewController: VideoBridgeDelegate {
     }
     
     func configuredAnswerReceived(answer: JanusVideoRoomConfigureAnswer) {
-        let sdp = RTCSessionDescription(type: .offer, sdp: answer.jsep.sdp)
+        var sdpType: RTCSdpType
+        if answer.jsep.type == "answer" {
+            sdpType = .answer
+        } else {
+            sdpType = .offer
+        }
+        let sdp = RTCSessionDescription(type: sdpType, sdp: answer.jsep.sdp)
         self.webRTCClient.set(remoteSdp: sdp) { (error) in
             print("Set remoteSdp \(String(describing: error))")
             if (error == nil){

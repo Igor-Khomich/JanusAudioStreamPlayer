@@ -96,9 +96,13 @@ public struct JanusVideoRoomPublishRequest: Encodable {
 public struct VideoPublishBody: Codable {
     let request: String = "configure"
     let displayName: String?
-
+    let audio: Bool = true
+    let video: Bool = true
+    
     enum CodingKeys : String, CodingKey {
         case request = "request"
         case displayName = "display"
+        case audio = "audio"
+        case video = "video"
     }
 }
