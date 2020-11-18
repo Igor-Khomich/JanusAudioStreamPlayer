@@ -85,3 +85,20 @@ public struct JanusVideoRoomErrorResponse: Codable
     public let error_code: Int64
     public let error: String
 }
+
+public struct JanusVideoRoomPublishRequest: Encodable {
+    let janus: String
+    let transaction: String
+    let body: VideoPublishBody
+    let jsep: JanusJSEPOUTPUTData?
+}
+
+public struct VideoPublishBody: Codable {
+    let request: String = "configure"
+    let displayName: String?
+
+    enum CodingKeys : String, CodingKey {
+        case request = "request"
+        case displayName = "display"
+    }
+}

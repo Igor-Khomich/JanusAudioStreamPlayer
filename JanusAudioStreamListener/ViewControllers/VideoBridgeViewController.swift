@@ -12,6 +12,7 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
     @IBOutlet weak var feedIdTextField: UITextField!
     
     @IBOutlet private weak var localVideoView: UIView?
+    @IBOutlet private weak var myVideoView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,13 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
         
         self.runAudioBridgePluginSequence()
         
+        
+        let localRenderer = RTCEAGLVideoView(frame: self.myVideoView?.frame ?? CGRect.zero)
+        self.webRTCClient.startCaptureLocalVideo(renderer: localRenderer)
+        self.view.addSubview(localRenderer)
+        
         self.webRTCClient.renderRemoteVideoTo(view: self.localVideoView!)
+
     }
 
     @IBAction func joinButtonTouched(_ sender: Any) {
@@ -71,8 +78,14 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
         let roomId: Int = Int(self.roomIdTextField.text!)!
         let feedId: Int = Int(self.feedIdTextField.text!)!
         
-        self.janusVBSession.joinToVideoRoomRequest(roomId: roomId, feedId: feedId) { (error) in
+        self.janusVBSession.joinToVideoRoomRequest(roomId: roomId, feedId: feedId) { [unowned self] (error) in
             print("Watch offer finished, error: \(String(describing: error))")
+            self.webRTCClient.offer { (sdp) in
+                self.janusVBSession.startPublishingToVideoRoomRequest(displayname: "Newbie", sdpOffer: sdp.sdp) { (error) in
+                    print("wideo publishing started, error: \(String(describing: error))")
+                }
+            }
+            
         }
     }
     

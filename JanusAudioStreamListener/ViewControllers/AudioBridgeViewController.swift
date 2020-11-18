@@ -80,7 +80,7 @@ class AudioBridgeViewController: BaseWebRtcReadyViewController {
         let userConfig = AudioBridgeUserConfig(userName: "Bugaga",
                                                muted: mutedSwitch.isOn,
                                                volume: 70,
-                                               quality: 5 )
+                                               quality: 5)
                
         self.janusABSession.sendAudioRoomChangeUserDataRequestWith(userConfig: userConfig) { (error) in
             print("sendAudioRoomChangeUserDataRequestWith was sent with error: \(String(describing:error?.localizedDescription))")
@@ -103,7 +103,7 @@ extension AudioBridgeViewController: AudioBridgeDelegate {
             let userConfig = AudioBridgeUserConfig(userName: "Bugaga",
                                                    muted: isUserMuted,
                                                    volume: 70,
-                                                   quality: 5 )
+                                                   quality: 5)
             
             self.janusABSession.sendAudioRoomConfigureRequestWith(offer: sdp, userConfig: userConfig) { (error) in
                 print("configure request sent, error: \(String(describing: error))")

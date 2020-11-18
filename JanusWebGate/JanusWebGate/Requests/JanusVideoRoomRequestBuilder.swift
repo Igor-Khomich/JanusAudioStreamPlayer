@@ -1,6 +1,11 @@
 
 import Foundation
 
+public enum RoomPType: String {
+    case subscriber = "subscriber"
+    case publisher = "publisher"
+}
+
 public class JanusVideoRoomRequestBuilder: JanusBaseRequestsBuilder {
     
     func createStartCommandRequestWith(sessionId: Int64, streamPluginId: Int64, transactionId: String, sdp: String) -> URLRequest
@@ -71,12 +76,30 @@ public class JanusVideoRoomRequestBuilder: JanusBaseRequestsBuilder {
         return self.POSTRequestWith(body: rBody)
     }
     
-    func createJoinToVideoRoomRequestWith(transactionId: String, roomId: Int, feedId: Int) -> URLRequest
+    func createJoinToVideoRoomRequestWith(transactionId: String, roomId: Int, feedId: Int, role: RoomPType) -> URLRequest
     {
-        let body = "{\"request\" : \"join\", \"ptype\": \"subscriber\", \"room\" : \(roomId), \"feed\" : \(feedId)}"
+        let body = "{\"request\" : \"join\", \"ptype\": \"\(role.rawValue)\", \"room\" : \(roomId), \"feed\" : \(feedId)}"
         let rBody = "{\"janus\":\"message\", \"transaction\":\"\(transactionId)\", \"body\" : \(body) }"
         
         return self.POSTRequestWith(body: rBody)
+    }
+    
+    func createVideoRoomPublishRequestWith(offer sdp: String, name displayName: String, transactionId: String) -> URLRequest
+    {
+        let jsep: JanusJSEPOUTPUTData? = JanusJSEPOUTPUTData(type: "offer", sdp: sdp)
+        
+        let body: VideoPublishBody = VideoPublishBody(displayName: displayName)
+        
+        let mess = JanusVideoRoomPublishRequest(janus: "message",
+                                                transaction: "\(transactionId)",
+                                                body: body,
+                                                jsep: jsep)
+        
+        let data = try? JSONEncoder().encode(mess)
+        
+        print("!!!!!START createVideoRoomPublishRequestWith REQUEST : \(String(data: data!, encoding: .utf8) ?? "!!!")")
+
+        return self.POSTRequestWith(body: data!, sessionId: sessionId, pluginId: pluginId)
     }
 
 }
