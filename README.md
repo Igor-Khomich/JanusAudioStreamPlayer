@@ -32,6 +32,8 @@
 
 - Leave room
 
+- Video stream from device to the room
+
 
 ## Installation:
 
