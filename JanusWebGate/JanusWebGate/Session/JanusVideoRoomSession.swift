@@ -109,7 +109,7 @@ public class JanusVideoRoomSession: JanusBaseSession<JanusVideoRoomRequestBuilde
         self.sendSimpleRequest(request: request, completion: completion)
     }
     
-    public func joinToVideoRoomForPublishRequest(roomId: Int, completion: @escaping (Error?) -> ())
+    public func publishToVideoRoomRequest(roomId: Int, completion: @escaping (Error?) -> ())
     {
         print("joinToVideoRoomRequest started")
         

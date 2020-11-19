@@ -95,35 +95,68 @@ final class WebRTCClient: NSObject {
     }
     
     // MARK: Media
-    func startCaptureLocalVideo(renderer: RTCVideoRenderer) {
+    func startCaptureLocalVideo(view: UIView, device: AVCaptureDevice?, format: AVCaptureDevice.Format?, fps: Int?) {
+        let width: CGFloat
+        let height: CGFloat
+        if let format = format {
+            width = CGFloat(CMVideoFormatDescriptionGetDimensions(format.formatDescription).width)
+            height = CGFloat(CMVideoFormatDescriptionGetDimensions(format.formatDescription).height)
+        } else {
+            width = CGFloat(100)
+            height = CGFloat(100)
+        }
+        
+        let localFrame = CGRect(x: 0, y: 0, width: height/2, height: width/2) //height->width is crossed becouse of portrait mode, we need more logic here in general
+        let localRenderer = RTCEAGLVideoView(frame: localFrame)
+        localRenderer.isHidden = false
+        view.addSubview(localRenderer)
+        self.startCaptureLocalVideo(renderer: localRenderer,
+                                    device: device,
+                                    format: format,
+                                    fps: fps)
+    }
+    
+    func startCaptureLocalVideo(renderer: RTCVideoRenderer, device: AVCaptureDevice?, format: AVCaptureDevice.Format?, fps: Int?) {
         guard let capturer = self.videoCapturer as? RTCCameraVideoCapturer else {
             return
         }
 
-        guard
-            let frontCamera = (RTCCameraVideoCapturer.captureDevices().first { $0.position == .front }),
+            
+        let camera: AVCaptureDevice
+        if device != nil {
+            camera = device!
+        } else {
+            camera = RTCCameraVideoCapturer.captureDevices().first { $0.position == .front }! //TODO: IGK if no captureDevices???
+        }
         
-            // choose highest res
-            let format = (RTCCameraVideoCapturer.supportedFormats(for: frontCamera).sorted { (f1, f2) -> Bool in
+        
+        let finalFormat: AVCaptureDevice.Format
+        if format != nil {
+            finalFormat = format!
+        } else {
+            finalFormat = (RTCCameraVideoCapturer.supportedFormats(for: camera).sorted { (f1, f2) -> Bool in
                 let width1 = CMVideoFormatDescriptionGetDimensions(f1.formatDescription).width
                 let width2 = CMVideoFormatDescriptionGetDimensions(f2.formatDescription).width
                 return width1 < width2
-            }).last,
+            }).last! //TODO: IGK if no supportedFormats?
+        }
         
-            // choose highest fps
-            let fps = (format.videoSupportedFrameRateRanges.sorted { return $0.maxFrameRate < $1.maxFrameRate }.last) else {
-            return
+        
+        let finalFps: Int
+        if fps != nil {
+            finalFps = fps!
+        } else {
+            finalFps = Int(finalFormat.videoSupportedFrameRateRanges.sorted { return $0.maxFrameRate < $1.maxFrameRate }.last!.maxFrameRate) //TODO: IGK if no videoSupportedFrameRateRanges?
         }
 
-        capturer.startCapture(with: frontCamera,
-                              format: format,
-                              fps: Int(fps.maxFrameRate))
+        capturer.startCapture(with: camera,
+                              format: finalFormat,
+                              fps: finalFps)
         
         self.localVideoTrack?.add(renderer)
     }
     
     func renderRemoteVideoTo(view: UIView) {
-        
         self.remoteRenderView = RTCEAGLVideoView()
         self.remoteRenderView?.frame = view.bounds
         self.remoteRenderView?.delegate = self

@@ -8,11 +8,12 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
     private let janusVBSession = JanusVideoRoomSession(url: Environment.instanceUrl)
     
     private var isPlaying = false
+    private var myPictureView: UIView? = nil
+    
     @IBOutlet weak var roomIdTextField: UITextField!
     @IBOutlet weak var feedIdTextField: UITextField!
     
     @IBOutlet private weak var localVideoView: UIView?
-    @IBOutlet private weak var myVideoView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,16 +23,38 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
         janusVBSession.delegate = self
         
         self.runAudioBridgePluginSequence()
-        
-        
-        let localRenderer = RTCEAGLVideoView(frame: self.myVideoView?.frame ?? CGRect.zero)
-        self.webRTCClient.startCaptureLocalVideo(renderer: localRenderer)
-        self.view.addSubview(localRenderer)
-        
         self.webRTCClient.renderRemoteVideoTo(view: self.localVideoView!)
+        self.initializeLocalStream()
 
     }
 
+    func initializeLocalStream() {
+        let streamResolutionWidth = 320
+        
+        let frontCamera = RTCCameraVideoCapturer.captureDevices().first { $0.position == .front }
+        var format: AVCaptureDevice.Format?
+        if let frontCamera = frontCamera {
+            let formatsList = RTCCameraVideoCapturer.supportedFormats(for: frontCamera).sorted { (f1, f2) -> Bool in
+                let width1 = CMVideoFormatDescriptionGetDimensions(f1.formatDescription).width
+                let width2 = CMVideoFormatDescriptionGetDimensions(f2.formatDescription).width
+                return width1 < width2
+            }
+            
+            for item in formatsList {
+                if CMVideoFormatDescriptionGetDimensions(item.formatDescription).width >= streamResolutionWidth {
+                    format = item
+                    break
+                }
+            }
+        }
+
+        self.webRTCClient.startCaptureLocalVideo(view: localVideoView!,
+                                                 device: frontCamera,
+                                                 format: format,
+                                                 fps: 30)
+    }
+    
+    
     @IBAction func joinButtonTouched(_ sender: Any) {
         self.joinVideoRoom()
     }
@@ -89,7 +112,7 @@ class VideoBridgeViewController: BaseWebRtcReadyViewController {
 //        }
         
         //as publisher
-        self.janusVBSession.joinToVideoRoomForPublishRequest(roomId: roomId) { [unowned self] (error) in
+        self.janusVBSession.publishToVideoRoomRequest(roomId: roomId) { [unowned self] (error) in
             print("Watch offer finished, error: \(String(describing: error))")
             self.webRTCClient.offer { (sdp) in
                 self.janusVBSession.startPublishingToVideoRoomRequest(displayname: "Newbie", sdpOffer: sdp.sdp) { (error) in
