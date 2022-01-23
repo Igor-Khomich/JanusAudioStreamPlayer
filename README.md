@@ -44,3 +44,7 @@ code example and lib sources in this repository
 
     
 ... to be continued ...
+
+## License
+
+JanusAudioStreamPlayer is released under the MIT license. [See LICENSE](https://github.com/Igor-Khomich/JanusAudioStreamPlayer/blob/master/LICENSE) for details.
